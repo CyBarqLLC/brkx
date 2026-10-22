@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BRKX | بريكس من قصي قنديل</title>
+<meta name="description" content="BRKX متجر قصي قنديل في الأردن. كنزة بولو محبوكة، صنع تركي، بأربعة ألوان ومقاسات من M إلى 2XL، بسعر ١٥ دينارًا. الطلب عبر واتساب.">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BRKX by Qusai Qandeel">
+<meta property="og:description" content="Knit polo, made in Turkey. Four colours, sizes M to 2XL, 15 JOD. Order on WhatsApp.">
+<meta property="og:image" content="assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/thmanyah-serif-display-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/thmanyah-serif-display-medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  (function () {
+    try {
+      var l = localStorage.getItem('brkx-lang');
+      if (l === 'en') { document.documentElement.lang = 'en'; document.documentElement.dir = 'ltr'; }
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__logo"><img src="assets/img/brkx-logo-light.svg" alt="" width="1000" height="388"></div>
+  <p class="loader__sub"><span data-l="ar">متجر قصي قنديل</span><span data-l="en">Qusai Qandeel's shop</span></p>
+</div>
+<div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
+
+<a class="skip" href="#main"><span data-l="ar">انتقل إلى المحتوى</span><span data-l="en">Skip to content</span></a>
+
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="#top" aria-label="BRKX">
+      <img class="logo-green" src="assets/img/brkx-logo-green.svg" alt="BRKX" width="1000" height="388">
+      <img class="logo-light" src="assets/img/brkx-logo-light.svg" alt="" width="1000" height="388" aria-hidden="true">
+    </a>
+    <nav class="nav__links" aria-label="primary">
+      <a href="#colours"><span data-l="ar">الألوان</span><span data-l="en">Colours</span></a>
+      <a href="#details"><span data-l="ar">التفاصيل</span><span data-l="en">Details</span></a>
+      <a href="#looks"><span data-l="ar">من مرآتي</span><span data-l="en">Looks</span></a>
+      <a href="#qusai"><span data-l="ar">عن قصي</span><span data-l="en">About Qusai</span></a>
+      <a href="#sizing"><span data-l="ar">المقاسات</span><span data-l="en">Sizing</span></a>
+    </nav>
+    <div class="nav__end">
+      <button class="lang" id="langToggle" type="button" aria-label="Switch language">
+        <span data-l="ar">EN</span><span data-l="en">عربي</span>
+      </button>
+      <a class="nav__order js-wa" data-magnetic href="https://wa.me/962796673484" data-msg="general" target="_blank" rel="noopener">
+        <span data-l="ar">اطلب</span><span data-l="en">Order</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero__media">
+      <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="assets/img/poster-qusai.webp" aria-hidden="true">
+        <source src="assets/video/qusai-480.mp4" type="video/mp4" media="(max-width: 600px)">
+        <source src="assets/video/qusai-720.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="hero__text">
+      <p class="eyebrow reveal">
+        <span data-l="ar">متجر قصي قنديل</span><span data-l="en">Qusai Qandeel's shop</span>
+        
+      </p>
+
+      <h1 class="hero__title">
+        <span data-l="ar"><span class="line"><span>كنزة بولو</span></span><span class="line"><span>محبوكـة.</span></span></span>
+        <span data-l="en"><span class="line"><span>The knit</span></span><span class="line"><span>polo.</span></span></span>
+      </h1>
+
+      <p class="hero__lede reveal">
+        <span data-l="ar">صنع تركي. أربعة ألوان، من <bdi>M</bdi> إلى <bdi>2XL</bdi>.</span>
+        <span data-l="en">Made in Turkey. Four colours, M to 2XL.</span>
+      </p>
+
+      <div class="hero__price reveal">
+        <span class="price"><span data-l="ar">١٥</span><span data-l="en">15</span></span>
+        <span class="price__unit">
+          <span data-l="ar">دينارًا<br><em>لكل القطع</em></span>
+          <span data-l="en">JOD<br><em>every piece</em></span>
+        </span>
+      </div>
+
+      <div class="hero__cta reveal">
+        <a class="btn btn--solid js-wa" href="https://wa.me/962796673484" data-msg="general" target="_blank" rel="noopener" data-magnetic>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2Zm0 17.8c-1.5 0-3-.4-4.2-1.2l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1c0 1.2.9 2.4 1 2.6.1.2 1.8 2.7 4.3 3.8 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3Z"/></svg>
+          <span data-l="ar">اطلب عبر واتساب</span><span data-l="en">Order on WhatsApp</span>
+        </a>
+        <a class="btn btn--ghost" href="#colours" data-magnetic>
+          <span data-l="ar">شاهد الألوان</span><span data-l="en">See the colours</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <div class="ticker__group">
+        <span data-l="ar">صنع تركي</span><span data-l="en">Made in Turkey</span><svg class="spark"><use href="#spark"/></svg>
+        <span data-l="ar">ياقة بولو بأزرار</span><span data-l="en">Buttoned polo collar</span><svg class="spark"><use href="#spark"/></svg>
+        <span>M  L  XL  2XL</span><svg class="spark"><use href="#spark"/></svg>
+        <span data-l="ar">١٥ دينارًا لكل القطع</span><span data-l="en">15 JOD, every piece</span><svg class="spark"><use href="#spark"/></svg>
+        <span data-l="ar">توصيل لجميع محافظات الأردن</span><span data-l="en">Delivery to all governorates of Jordan</span><svg class="spark"><use href="#spark"/></svg>
+      </div>
+      <div class="ticker__group">
+        <span data-l="ar">صنع تركي</span><span data-l="en">Made in Turkey</span><svg class="spark"><use href="#spark"/></svg>
+        <span data-l="ar">ياقة بولو بأزرار</span><span data-l="en">Buttoned polo collar</span><svg class="spark"><use href="#spark"/></svg>
+        <span>M  L  XL  2XL</span><svg class="spark"><use href="#spark"/></svg>
+        <span data-l="ar">١٥ دينارًا لكل القطع</span><span data-l="en">15 JOD, every piece</span><svg class="spark"><use href="#spark"/></svg>
+        <span data-l="ar">توصيل لجميع محافظات الأردن</span><span data-l="en">Delivery to all governorates of Jordan</span><svg class="spark"><use href="#spark"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLLECTION -->
+  <section class="section collection" id="colours">
+    <div class="wrap">
+      <header class="sec-head sec-head--split">
+        <p class="eyebrow reveal"><span>01</span><span data-l="ar">المجموعة</span><span data-l="en">The collection</span></p>
+        <h2 class="sec-title reveal" data-split>
+          <span data-l="ar">أربعة ألـوان.</span>
+          <span data-l="en">Four colours.</span>
+        </h2>
+      </header>
+
+      <div class="products" id="products">
+        <!-- cards injected from data in main.js for consistency; static fallback below -->
+        <article class="card reveal" data-colour="indigo" data-cursor-ar="نيلي مغسول" data-cursor-en="Washed Indigo">
+          <div class="card__media reveal-img" data-tilt>
+            <img src="assets/img/polo-indigo-640.webp" srcset="assets/img/polo-indigo-640.webp 640w, assets/img/polo-indigo-1100.webp 1100w" sizes="(max-width: 700px) 82vw, (max-width: 1100px) 45vw, 25vw" alt="" loading="lazy" width="640" height="853">
+            <img class="card__alt" src="assets/img/look-indigo-900.webp" alt="" loading="lazy" width="900" height="1600">
+            <span class="card__no">01</span>
+          </div>
+          <div class="card__body">
+            <div class="card__row">
+              <h3 class="card__name"><span data-l="ar">نيلي مغسول</span><span data-l="en">Washed Indigo</span></h3>
+              <span class="swatch" style="--sw:#5B6E9E"></span>
+            </div>
+            <p class="card__meta"><span data-l="ar">كنزة بولو محبوكة، ١٥ دينارًا</span><span data-l="en">Knit polo, 15 JOD</span></p>
+            <div class="sizes" role="radiogroup">
+              <button type="button" role="radio" aria-checked="false">M</button>
+              <button type="button" role="radio" aria-checked="false">L</button>
+              <button type="button" role="radio" aria-checked="false">XL</button>
+              <button type="button" role="radio" aria-checked="false">2XL</button>
+            </div>
+            <a class="btn btn--line js-wa" href="https://wa.me/962796673484" target="_blank" rel="noopener" data-msg="product" data-ar="نيلي مغسول" data-en="Washed Indigo">
+              <span data-l="ar">اطلب هذا اللون</span><span data-l="en">Order this colour</span>
+            </a>
+          </div>
+        </article>
+
+        <article class="card reveal" data-colour="charcoal" data-cursor-ar="فحمي" data-cursor-en="Charcoal">
+          <div class="card__media reveal-img" data-tilt>
+            <img src="assets/img/polo-charcoal-640.webp" srcset="assets/img/polo-charcoal-640.webp 640w, assets/img/polo-charcoal-1100.webp 1100w" sizes="(max-width: 700px) 82vw, (max-width: 1100px) 45vw, 25vw" alt="" loading="lazy" width="640" height="853">
+            <img class="card__alt" src="assets/img/look-charcoal-900.webp" alt="" loading="lazy" width="900" height="1600">
+            <span class="card__no">02</span>
+          </div>
+          <div class="card__body">
+            <div class="card__row">
+              <h3 class="card__name"><span data-l="ar">فحمي</span><span data-l="en">Charcoal</span></h3>
+              <span class="swatch" style="--sw:#5F646C"></span>
+            </div>
+            <p class="card__meta"><span data-l="ar">كنزة بولو محبوكة، ١٥ دينارًا</span><span data-l="en">Knit polo, 15 JOD</span></p>
+            <div class="sizes" role="radiogroup">
+              <button type="button" role="radio" aria-checked="false">M</button>
+              <button type="button" role="radio" aria-checked="false">L</button>
+              <button type="button" role="radio" aria-checked="false">XL</button>
+              <button type="button" role="radio" aria-checked="false">2XL</button>
+            </div>
+            <a class="btn btn--line js-wa" href="https://wa.me/962796673484" target="_blank" rel="noopener" data-msg="product" data-ar="فحمي" data-en="Charcoal">
+              <span data-l="ar">اطلب هذا اللون</span><span data-l="en">Order this colour</span>
+            </a>
+          </div>
+        </article>
+
+        <article class="card reveal" data-colour="espresso" data-cursor-ar="بني إسبريسو" data-cursor-en="Espresso">
+          <div class="card__media reveal-img" data-tilt>
+            <img src="assets/img/polo-espresso-640.webp" srcset="assets/img/polo-espresso-640.webp 640w, assets/img/polo-espresso-1100.webp 1100w" sizes="(max-width: 700px) 82vw, (max-width: 1100px) 45vw, 25vw" alt="" loading="lazy" width="640" height="853">
+            <img class="card__alt" src="assets/img/look-espresso-900.webp" alt="" loading="lazy" width="900" height="1600">
+            <span class="card__no">03</span>
+          </div>
+          <div class="card__body">
+            <div class="card__row">
+              <h3 class="card__name"><span data-l="ar">بني إسبريسو</span><span data-l="en">Espresso</span></h3>
+              <span class="swatch" style="--sw:#4B2F23"></span>
+            </div>
+            <p class="card__meta"><span data-l="ar">كنزة بولو محبوكة، ١٥ دينارًا</span><span data-l="en">Knit polo, 15 JOD</span></p>
+            <div class="sizes" role="radiogroup">
+              <button type="button" role="radio" aria-checked="false">M</button>
+              <button type="button" role="radio" aria-checked="false">L</button>
+              <button type="button" role="radio" aria-checked="false">XL</button>
+              <button type="button" role="radio" aria-checked="false">2XL</button>
+            </div>
+            <a class="btn btn--line js-wa" href="https://wa.me/962796673484" target="_blank" rel="noopener" data-msg="product" data-ar="بني إسبريسو" data-en="Espresso">
+              <span data-l="ar">اطلب هذا اللون</span><span data-l="en">Order this colour</span>
+            </a>
+          </div>
+        </article>
+
+        <article class="card reveal" data-colour="rose" data-cursor-ar="وردي ترابي" data-cursor-en="Dusty Rose">
+          <div class="card__media reveal-img" data-tilt>
+            <img src="assets/img/polo-rose-640.webp" srcset="assets/img/polo-rose-640.webp 640w, assets/img/polo-rose-1100.webp 1100w" sizes="(max-width: 700px) 82vw, (max-width: 1100px) 45vw, 25vw" alt="" loading="lazy" width="640" height="853">
+            <img class="card__alt" src="assets/img/look-rose-900.webp" alt="" loading="lazy" width="900" height="1600">
+            <span class="card__no">04</span>
+          </div>
+          <div class="card__body">
+            <div class="card__row">
+              <h3 class="card__name"><span data-l="ar">وردي ترابي</span><span data-l="en">Dusty Rose</span></h3>
+              <span class="swatch" style="--sw:#A7707B"></span>
+            </div>
+            <p class="card__meta"><span data-l="ar">كنزة بولو محبوكة، ١٥ دينارًا</span><span data-l="en">Knit polo, 15 JOD</span></p>
+            <div class="sizes" role="radiogroup">
+              <button type="button" role="radio" aria-checked="false">M</button>
+              <button type="button" role="radio" aria-checked="false">L</button>
+              <button type="button" role="radio" aria-checked="false">XL</button>
+              <button type="button" role="radio" aria-checked="false">2XL</button>
+            </div>
+            <a class="btn btn--line js-wa" href="https://wa.me/962796673484" target="_blank" rel="noopener" data-msg="product" data-ar="وردي ترابي" data-en="Dusty Rose">
+              <span data-l="ar">اطلب هذا اللون</span><span data-l="en">Order this colour</span>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <p class="more-colours reveal">
+        <svg class="spark"><use href="#spark"/></svg>
+        <span data-l="ar">ألوان أخرى <a class="js-wa" href="https://wa.me/962796673484" data-msg="colours" target="_blank" rel="noopener">على واتساب</a>.</span>
+        <span data-l="en">More colours <a class="js-wa" href="https://wa.me/962796673484" data-msg="colours" target="_blank" rel="noopener">on WhatsApp</a>.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="section details on-green" id="details">
+    <div class="wrap details__grid">
+      <div class="details__media reveal-img">
+        <video class="lazy-video" muted loop playsinline preload="none" poster="assets/img/poster-detail.webp" aria-hidden="true">
+          <source data-src="assets/video/detail-720.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="details__text">
+        <p class="eyebrow eyebrow--light reveal"><span>02</span><span data-l="ar">القطعة</span><span data-l="en">The piece</span></p>
+        <h2 class="sec-title reveal" data-split>
+          <span data-l="ar">المواصـفات.</span>
+          <span data-l="en">Specifications.</span>
+        </h2>
+
+        <ol class="specs reveal">
+          <li><span class="specs__n">01</span><span data-l="ar">صنع تركي</span><span data-l="en">Made in Turkey</span></li>
+          <li><span class="specs__n">02</span><span data-l="ar">تصميم محبوك</span><span data-l="en">Knitted construction</span></li>
+          <li><span class="specs__n">03</span><span data-l="ar">ياقة بولو كلاسيكية</span><span data-l="en">Classic polo collar</span></li>
+          <li><span class="specs__n">04</span><span data-l="ar">ياقة بأزرار</span><span data-l="en">Buttoned placket</span></li>
+          <li><span class="specs__n">05</span><span data-l="ar">أكمام طويلة</span><span data-l="en">Long sleeves</span></li>
+          <li><span class="specs__n">06</span><span data-l="ar">أساور وحافة مضلعة</span><span data-l="en">Ribbed cuffs and hem</span></li>
+          <li><span class="specs__n">07</span><span data-l="ar">قصة فضفاضة</span><span data-l="en">Relaxed fit</span></li>
+        </ol>
+      <div class="closeups">
+        <figure class="closeup reveal-img">
+          <video class="lazy-video" muted loop playsinline preload="none" poster="assets/img/poster-rack.webp" aria-hidden="true">
+            <source data-src="assets/video/rack-720.mp4" type="video/mp4">
+          </video>
+          <figcaption><span data-l="ar">الألوان</span><span data-l="en">Colours</span></figcaption>
+        </figure>
+        <figure class="closeup reveal-img">
+          <img src="assets/img/detail-collar.webp" alt="" loading="lazy" width="720" height="1217">
+          <figcaption><span data-l="ar">الياقة</span><span data-l="en">Collar</span></figcaption>
+        </figure>
+        <figure class="closeup closeup--offset reveal-img">
+          <img src="assets/img/detail-cuff.webp" alt="" loading="lazy" width="720" height="1217">
+          <figcaption><span data-l="ar">السوار</span><span data-l="en">Cuff</span></figcaption>
+        </figure>
+        <figure class="closeup reveal-img">
+          <img src="assets/img/detail-rose.webp" alt="" loading="lazy" width="720" height="960">
+          <figcaption><span data-l="ar">الغسلة</span><span data-l="en">Wash</span></figcaption>
+        </figure>
+      </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about" id="qusai">
+    <div class="wrap about__grid">
+      <figure class="about__portrait reveal-img" data-parallax="0.08">
+        <img src="assets/img/qusai-stand.webp" alt="" loading="lazy" width="720" height="1217">
+      </figure>
+      <div class="about__text">
+        <p class="eyebrow reveal"><span>03</span><span data-l="ar">صاحب المتجر</span><span data-l="en">The owner</span></p>
+        <h2 class="about__name reveal" data-split>
+          <span data-l="ar">قــصي قنديل</span>
+          <span data-l="en">Qusai Qandeel</span>
+        </h2>
+        <div class="about__body reveal">
+          <p data-l="ar">أرد على كل طلب على واتساب بنفسي.</p>
+          <p data-l="en">I answer every WhatsApp order myself.</p>
+        </div>
+        <div class="about__links reveal">
+          <a class="about__ig" href="https://instagram.com/brix.store" target="_blank" rel="noopener">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4Zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm6-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0ZM21.9 8c-.1-1.6-.4-3-1.6-4.2C19.1 2.6 17.6 2.2 16 2.1c-1.6-.1-6.4-.1-8 0-1.6.1-3 .4-4.2 1.6S2.2 6.4 2.1 8c-.1 1.6-.1 6.4 0 8 .1 1.6.4 3 1.6 4.2 1.2 1.2 2.6 1.5 4.2 1.6 1.6.1 6.4.1 8 0 1.6-.1 3-.4 4.2-1.6 1.2-1.2 1.5-2.6 1.6-4.2.1-1.6.1-6.4 0-8Zm-2.1 9.7a3.3 3.3 0 0 1-1.9 1.9c-1.3.5-4.3.4-5.9.4s-4.6.1-5.9-.4a3.3 3.3 0 0 1-1.9-1.9c-.5-1.3-.4-4.3-.4-5.7s-.1-4.4.4-5.7a3.3 3.3 0 0 1 1.9-1.9c1.3-.5 4.3-.4 5.9-.4s4.6-.1 5.9.4a3.3 3.3 0 0 1 1.9 1.9c.5 1.3.4 4.3.4 5.7s.1 4.4-.4 5.7Z"/></svg>
+          <span dir="ltr">@brix.store</span>
+        </a>
+          <a class="about__ig" href="https://instagram.com/qusaii.qandeell" target="_blank" rel="noopener">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4Zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm6-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0ZM21.9 8c-.1-1.6-.4-3-1.6-4.2C19.1 2.6 17.6 2.2 16 2.1c-1.6-.1-6.4-.1-8 0-1.6.1-3 .4-4.2 1.6S2.2 6.4 2.1 8c-.1 1.6-.1 6.4 0 8 .1 1.6.4 3 1.6 4.2 1.2 1.2 2.6 1.5 4.2 1.6 1.6.1 6.4.1 8 0 1.6-.1 3-.4 4.2-1.6 1.2-1.2 1.5-2.6 1.6-4.2.1-1.6.1-6.4 0-8Zm-2.1 9.7a3.3 3.3 0 0 1-1.9 1.9c-1.3.5-4.3.4-5.9.4s-4.6.1-5.9-.4a3.3 3.3 0 0 1-1.9-1.9c-.5-1.3-.4-4.3-.4-5.7s-.1-4.4.4-5.7a3.3 3.3 0 0 1 1.9-1.9c1.3-.5 4.3-.4 5.9-.4s4.6-.1 5.9.4a3.3 3.3 0 0 1 1.9 1.9c.5 1.3.4 4.3.4 5.7s.1 4.4-.4 5.7Z"/></svg>
+          <span dir="ltr">@qusaii.qandeell</span>
+        </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAGE -->
+  <section class="stage" id="looks">
+    <div class="stage__scroller">
+    <div class="stage__pin">
+    <div class="wrap stage__wrap">
+      <header class="stage__head">
+        <h2 class="sec-title sec-title--sm reveal" data-split>
+          <span data-l="ar">من مرآتي.</span>
+          <span data-l="en">From my mirror.</span>
+        </h2>
+      </header>
+      <div class="stage__grid">
+        <div class="stage__view reveal-img" data-cursor="drag">
+        <img class="stage__img is-active" data-i="0" src="assets/img/look-indigo-900.webp" alt="" loading="lazy" width="900" height="1600">
+        <img class="stage__img" data-i="1" src="assets/img/look-charcoal-900.webp" alt="" loading="lazy" width="900" height="1600">
+        <img class="stage__img" data-i="2" src="assets/img/look-espresso-900.webp" alt="" loading="lazy" width="900" height="1600">
+        <img class="stage__img" data-i="3" src="assets/img/look-rose-900.webp" alt="" loading="lazy" width="900" height="1600">
+          <div class="stage__progress"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="stage__list" role="tablist">
+        <button class="stage__btn is-active" type="button" data-i="0" style="--sw:#5B6E9E">
+          <span class="stage__n">01</span>
+          <span class="stage__name"><span data-l="ar">نيلي مغسول</span><span data-l="en">Washed Indigo</span></span>
+          <span class="swatch"></span>
+        </button>
+        <button class="stage__btn" type="button" data-i="1" style="--sw:#5F646C">
+          <span class="stage__n">02</span>
+          <span class="stage__name"><span data-l="ar">فحمي</span><span data-l="en">Charcoal</span></span>
+          <span class="swatch"></span>
+        </button>
+        <button class="stage__btn" type="button" data-i="2" style="--sw:#4B2F23">
+          <span class="stage__n">03</span>
+          <span class="stage__name"><span data-l="ar">بني إسبريسو</span><span data-l="en">Espresso</span></span>
+          <span class="swatch"></span>
+        </button>
+        <button class="stage__btn" type="button" data-i="3" style="--sw:#A7707B">
+          <span class="stage__n">04</span>
+          <span class="stage__name"><span data-l="ar">وردي ترابي</span><span data-l="en">Dusty Rose</span></span>
+          <span class="swatch"></span>
+        </button>
+          <a class="btn btn--solid stage__cta js-wa" href="https://wa.me/962796673484" data-msg="stage" target="_blank" rel="noopener" data-magnetic>
+            <span data-l="ar">اطلب هذا اللون</span><span data-l="en">Order this colour</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- SIZING + ORDER -->
+  <section class="section info" id="sizing">
+    <div class="wrap info__grid">
+      <div class="info__block">
+        <p class="eyebrow reveal"><span>04</span><span data-l="ar">المقاسات</span><span data-l="en">Sizing</span></p>
+        <h2 class="sec-title sec-title--sm reveal" data-split>
+          <span data-l="ar">المقـاسات.</span>
+          <span data-l="en">Sizing.</span>
+        </h2>
+        <div class="size-row reveal">
+          <span>M</span><span>L</span><span>XL</span><span>2XL</span>
+        </div>
+        <p class="info__p reveal">
+          <span data-l="ar">القصّة فضفاضة. للمساعدة في المقاس، أرسل طولك ووزنك على واتساب.</span>
+          <span data-l="en">Relaxed fit. For sizing help, send your height and weight on WhatsApp.</span>
+        </p>
+        <a class="link-u reveal js-wa" href="https://wa.me/962796673484" data-msg="size" target="_blank" rel="noopener">
+          <span data-l="ar">اسأل عن المقاس</span><span data-l="en">Ask about sizing</span>
+          
+        </a>
+      </div>
+
+      <div class="info__block">
+        <p class="eyebrow reveal"><span>05</span><span data-l="ar">الطلب</span><span data-l="en">Ordering</span></p>
+        <h2 class="sec-title sec-title--sm reveal" data-split>
+          <span data-l="ar">كيف تطلب.</span>
+          <span data-l="en">How to order.</span>
+        </h2>
+        <ol class="steps reveal">
+          <li>
+            <span class="steps__n"><span data-l="ar">١</span><span data-l="en">1</span></span>
+            <div><strong><span data-l="ar">اختر اللون والمقاس</span><span data-l="en">Pick a colour and size</span></strong></div>
+          </li>
+          <li>
+            <span class="steps__n"><span data-l="ar">٢</span><span data-l="en">2</span></span>
+            <div><strong><span data-l="ar">أرسل الطلب على واتساب</span><span data-l="en">Send the order on WhatsApp</span></strong></div>
+          </li>
+          <li>
+            <span class="steps__n"><span data-l="ar">٣</span><span data-l="en">3</span></span>
+            <div><strong><span data-l="ar">التوصيل لجميع محافظات الأردن</span><span data-l="en">Delivery to all governorates of Jordan</span></strong></div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final on-green">
+    <div class="wrap final__inner">
+      <p class="final__big reveal">
+        <span data-l="ar"><span class="count" data-to="15" data-fmt="ar">١٥</span> دينـارًا.</span>
+        <span data-l="en"><span class="count" data-to="15" data-fmt="en">15</span> JOD.</span>
+      </p>
+      <p class="final__sub reveal">
+        <span data-l="ar">لكل القطع.</span>
+        <span data-l="en">Every piece.</span>
+      </p>
+      <div class="final__cta reveal">
+        <a class="btn btn--light js-wa" data-magnetic href="https://wa.me/962796673484" data-msg="general" target="_blank" rel="noopener">
+          <span data-l="ar">اطلب عبر واتساب</span><span data-l="en">Order on WhatsApp</span>
+        </a>
+        <a class="btn btn--ghost-light" data-magnetic href="https://instagram.com/brix.store" target="_blank" rel="noopener">
+          <span data-l="ar">تابعنا على إنستغرام</span><span data-l="en">Follow on Instagram</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot on-green">
+  <div class="wrap foot__inner">
+    <img class="foot__logo" src="assets/img/brkx-logo-light.svg" alt="BRKX" width="1000" height="388" loading="lazy">
+    <div class="foot__cols">
+      <div>
+        <p class="foot__label"><span data-l="ar">واتساب</span><span data-l="en">WhatsApp</span></p>
+        <a class="js-wa" href="https://wa.me/962796673484" data-msg="general" target="_blank" rel="noopener" dir="ltr">+962 7 9667 3484</a>
+      </div>
+      <div>
+        <p class="foot__label"><span data-l="ar">إنستغرام المتجر</span><span data-l="en">Shop on Instagram</span></p>
+        <a href="https://instagram.com/brix.store" target="_blank" rel="noopener" dir="ltr">@brix.store</a>
+      </div>
+      <div>
+        <p class="foot__label"><span data-l="ar">إنستغرام قصي</span><span data-l="en">Qusai on Instagram</span></p>
+        <a href="https://instagram.com/qusaii.qandeell" target="_blank" rel="noopener" dir="ltr">@qusaii.qandeell</a>
+      </div>
+      <div>
+        <p class="foot__label"><span data-l="ar">المكان</span><span data-l="en">Based in</span></p>
+        <p><span data-l="ar">الأردن، التوصيل لجميع المحافظات</span><span data-l="en">Jordan, delivery to all governorates</span></p>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 BRKX</span>
+      <span><span data-l="ar">متجر قصي قنديل</span><span data-l="en">Qusai Qandeel's shop</span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile order bar -->
+<div class="dock" id="dock">
+  <div class="dock__text">
+    <strong><span data-l="ar">كنزة بولو محبوكة</span><span data-l="en">Knit polo</span></strong>
+    <span><span data-l="ar">١٥ دينارًا، من <bdi>M</bdi> إلى <bdi>2XL</bdi></span><span data-l="en">15 JOD, M to 2XL</span></span>
+  </div>
+  <a class="btn btn--solid btn--sm js-wa" href="https://wa.me/962796673484" data-msg="general" target="_blank" rel="noopener">
+    <span data-l="ar">اطلب</span><span data-l="en">Order</span>
+  </a>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="spark" viewBox="0 0 64 64"><path d="M32 2 C33.6 25 39 30.4 62 32 C39 33.6 33.6 39 32 62 C30.4 39 25 33.6 2 32 C25 30.4 30.4 25 32 2Z"/></symbol>
+</svg>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
