@@ -41,6 +41,10 @@
       var card = a.closest('.card');
       var sel = card && card.querySelector('.sizes [aria-checked="true"]');
       text = orderText(a.getAttribute('data-' + root.lang), sel ? sel.textContent.trim() : null, card && card.getAttribute('data-product-' + root.lang));
+    } else if (type === 'hero') {
+      var cur = document.querySelector('.hero__title .ht.is-active');
+      var prod = cur ? cur.getAttribute('data-product-' + root.lang) : '';
+      text = root.lang === 'ar' ? 'مرحبا قصي، بدي أطلب ' + prod + '.' : "Hi Qusai, I'd like to order the " + prod + '.';
     } else if (type === 'stage') {
       var act = document.querySelector('.stage__btn.is-active [data-l="' + root.lang + '"]');
       text = orderText(act ? act.textContent.trim() : '', null);
@@ -316,6 +320,96 @@
       window.addEventListener('resize', update);
       update();
     }
+  })();
+
+  /* =========================================================
+     Hero slider: Henley / DMC, every 5 seconds
+     ========================================================= */
+  (function () {
+    var hero = document.querySelector('.hero');
+    if (!hero) return;
+    var layers = hero.querySelectorAll('.hero__layer');
+    var titles = hero.querySelectorAll('.hero__title .ht');
+    var ledes = hero.querySelectorAll('.hero__ledes .hl');
+    var tabs = hero.querySelectorAll('.hero__tab');
+    var see = hero.querySelector('.hero__see');
+    var order = hero.querySelector('.hero__order');
+    var dmc = hero.querySelector('.hero__video--dmc');
+    if (layers.length < 2 || !dmc) return;
+    var CLIPS = ['navy', 'brown', 'grey', 'beige', 'cream'];
+    var TARGET = ['#colours', '#new'];
+    var DUR = 5000, cur = 0, ci = 0, t0 = 0, paused = false, visible = true, started = false, leaveTimer;
+
+    function loadClip() {
+      var c = CLIPS[ci % CLIPS.length]; ci++;
+      dmc.preload = 'auto';
+      dmc.poster = 'assets/img/poster-style-' + c + '.webp';
+      dmc.src = 'assets/video/style-' + c + '.mp4';
+      dmc.load();
+    }
+
+    function show(i) {
+      if (i === cur) return;
+      var prev = cur; cur = i;
+      clearTimeout(leaveTimer);
+      layers.forEach(function (l) { l.classList.remove('is-leaving'); });
+      layers[prev].classList.add('is-leaving');
+      layers[prev].classList.remove('is-active');
+      layers[i].classList.add('is-active');
+      titles.forEach(function (t, k) { t.classList.toggle('is-active', k === i); t.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
+      ledes.forEach(function (l, k) { l.classList.toggle('is-active', k === i); });
+      tabs.forEach(function (b, k) { b.classList.toggle('is-active', k === i); b.setAttribute('aria-selected', k === i ? 'true' : 'false'); b.querySelector('i').style.setProperty('--p', k < i ? 1 : 0); });
+      if (see) see.setAttribute('href', TARGET[i]);
+      if (order) order.href = buildHref(order);
+      if (i === 1) {
+        try { dmc.currentTime = 0; } catch (e) {}
+        var p = dmc.play(); if (p && p.catch) p.catch(function () {});
+      }
+      leaveTimer = setTimeout(function () {
+        layers[prev].classList.remove('is-leaving');
+        if (prev === 1) { dmc.pause(); loadClip(); }
+      }, 1150);
+      t0 = performance.now();
+    }
+
+    tabs.forEach(function (b, k) {
+      b.addEventListener('click', function () { show(k); t0 = performance.now(); });
+    });
+
+    // swipe on touch
+    var sx = null;
+    hero.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    hero.addEventListener('touchend', function (e) {
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx; sx = null;
+      if (Math.abs(dx) > 50) show(1 - cur);
+    });
+
+    // pause while the visitor reads (desktop hover over the text)
+    var txt = hero.querySelector('.hero__text');
+    if (finePointer && txt) {
+      txt.addEventListener('pointerenter', function () { paused = true; });
+      txt.addEventListener('pointerleave', function () { paused = false; t0 = performance.now() - (parseFloat(tabs[cur].querySelector('i').style.getPropertyValue('--p')) || 0) * DUR; });
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }, { threshold: 0.35 }).observe(hero);
+    }
+
+    // first DMC clip loads quietly after the page is up
+    setTimeout(loadClip, 1200);
+
+    if (reduce) return;
+    (function loop(now) {
+      if (!started && root.classList.contains('is-loaded')) { started = true; t0 = now + 600; }
+      if (started && visible && !paused && !document.hidden) {
+        var p = clamp((now - t0) / DUR, 0, 1);
+        tabs[cur].querySelector('i').style.setProperty('--p', p.toFixed(4));
+        if (p >= 1) show(1 - cur);
+      } else if (paused || !visible || document.hidden) {
+        t0 = now - (parseFloat(tabs[cur].querySelector('i').style.getPropertyValue('--p')) || 0) * DUR;
+      }
+      requestAnimationFrame(loop);
+    })(performance.now());
   })();
 
   /* =========================================================
