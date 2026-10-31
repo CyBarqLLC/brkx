@@ -30,9 +30,9 @@
     colours: { ar: 'مرحبا قصي، ممكن صور الألوان الثانية المتوفرة؟', en: 'Hi Qusai, could you send me photos of the other colours?' },
     size: { ar: 'مرحبا قصي، بدي مساعدة باختيار المقاس.\nطولي: \nوزني: ', en: 'Hi Qusai, could you help me with sizing?\nHeight: \nWeight: ' }
   };
-  function orderText(colour, size) {
-    if (root.lang === 'ar') return 'مرحبا قصي، بدي أطلب كنزة البولو المحبوكة.\nاللون: ' + colour + '\nالمقاس: ' + (size || 'بحاجة مساعدة');
-    return "Hi Qusai, I'd like to order the knit polo.\nColour: " + colour + '\nSize: ' + (size || 'need help choosing');
+  function orderText(colour, size, product) {
+    if (root.lang === 'ar') return 'مرحبا قصي، بدي أطلب ' + (product || 'بلوزة هنلي oversize') + '.\nاللون: ' + colour + '\nالمقاس: ' + (size || 'بحاجة مساعدة');
+    return "Hi Qusai, I'd like to order the " + (product || 'oversize Henley') + '.\nColour: ' + colour + '\nSize: ' + (size || 'need help choosing');
   }
   function buildHref(a) {
     var type = a.getAttribute('data-msg') || 'general';
@@ -40,7 +40,7 @@
     if (type === 'product') {
       var card = a.closest('.card');
       var sel = card && card.querySelector('.sizes [aria-checked="true"]');
-      text = orderText(a.getAttribute('data-' + root.lang), sel ? sel.textContent.trim() : null);
+      text = orderText(a.getAttribute('data-' + root.lang), sel ? sel.textContent.trim() : null, card && card.getAttribute('data-product-' + root.lang));
     } else if (type === 'stage') {
       var act = document.querySelector('.stage__btn.is-active [data-l="' + root.lang + '"]');
       text = orderText(act ? act.textContent.trim() : '', null);
