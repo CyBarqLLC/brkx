@@ -220,7 +220,6 @@
     $('.ps__body', sheet).innerHTML =
       '<div class="ps__gallery"><div class="ps__main">' + main + (p.badge ? '<span class="pc__badge">' + both(esc(p.badge.ar), esc(p.badge.en)) + '</span>' : '') + '</div>' + thumbs + '</div>' +
       '<div class="ps__info">' +
-        '<p class="ps__cat">' + both(esc(catName(p.category).ar), esc(catName(p.category).en)) + '</p>' +
         '<h2 class="ps__name" id="psTitle">' + both(esc(p.name.ar).replace('oversize', '<bdi>oversize</bdi>').replace('DMC', '<bdi>DMC</bdi>'), esc(p.name.en)) + '</h2>' +
         '<p class="ps__price">' + price(p.price) + '</p>' +
         '<p class="ps__tag">' + both(esc(p.tagline.ar), esc(p.tagline.en)) + '</p>' +
