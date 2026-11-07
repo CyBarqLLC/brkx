@@ -77,25 +77,27 @@
     }
     var html = P.map(function (p, i) {
       var c = p.colours[0];
-      var sw = p.colours.length > 1 ? '<div class="pc__swatches" role="group">' + p.colours.map(function (cc, k) {
+      var sw = p.colours.length > 1 ? '<div class="pc__swatches" role="group">' + p.colours.slice(0, 6).map(function (cc, k) {
         return '<button class="pc__sw' + (k === 0 ? ' is-active' : '') + '" type="button" data-c="' + cc.id + '" style="--sw:' + cc.hex + '" aria-label="' + esc(cc.ar) + ' / ' + esc(cc.en) + '"></button>';
-      }).join('') + '</div>' : '';
-      return '<article class="pc reveal" data-p="' + p.id + '" data-cat="' + p.category + '" data-cursor-ar="عرض" data-cursor-en="View">' +
-        '<button class="pc__media reveal-img" type="button" data-open="' + p.id + '" data-tilt aria-label="' + esc(p.name.ar) + '">' +
-          '<img class="pc__img" src="' + c.img + '" srcset="' + c.img + ' 640w' + (c.imgLarge ? ', ' + c.imgLarge + ' 1080w' : '') + '" sizes="(max-width: 700px) 86vw, (max-width: 1100px) 45vw, 30vw" alt="" loading="lazy" width="640" height="853">' +
-          (c.alt ? '<img class="pc__alt" src="' + c.alt + '" alt="" loading="lazy" width="640" height="853">' : '') +
+      }).join('') + (p.colours.length > 6 ? '<span class="pc__more">+' + (p.colours.length - 6) + '</span>' : '') + '</div>' : '';
+      return '<article class="pc reveal" data-p="' + p.id + '" data-i="' + i + '" data-price="' + p.price + '" data-cat="' + p.category + '">' +
+        '<div class="pc__mediawrap">' +
+          '<button class="pc__media reveal-img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name.ar) + '">' +
+            '<img class="pc__img" src="' + c.img + '" srcset="' + c.img + ' 640w' + (c.imgLarge ? ', ' + c.imgLarge + ' 1080w' : '') + '" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 25vw" alt="" loading="lazy" width="640" height="853">' +
+            (c.alt ? '<img class="pc__alt" src="' + c.alt + '" alt="" loading="lazy" width="640" height="853">' : '') +
+          '</button>' +
           (p.badge ? '<span class="pc__badge">' + both(esc(p.badge.ar), esc(p.badge.en)) + '</span>' : '') +
-          '<span class="pc__quick">' + both('اختر اللون والمقاس', 'Choose colour and size') + '</span>' +
-        '</button>' +
+          '<button class="pc__add" type="button" data-open="' + p.id + '" aria-label="Add">' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>' +
+            '<span>' + both('أضف للسلة', 'Add to bag') + '</span></button>' +
+        '</div>' +
         '<div class="pc__body">' +
-          '<div class="pc__row"><h3 class="pc__name">' + both(esc(p.name.ar).replace('oversize', '<bdi>oversize</bdi>').replace('DMC', '<bdi>DMC</bdi>'), esc(p.name.en)) + '</h3>' +
-          '<p class="pc__price">' + price(p.price) + '</p></div>' +
-          '<p class="pc__tag">' + both(esc(p.tagline.ar), esc(p.tagline.en)) + '</p>' +
-          '<div class="pc__foot">' + sw +
-            '<span class="pc__count">' + both(arDigits(p.colours.length) + ' ألوان', p.colours.length + ' colours') + '</span></div>' +
+          '<h3 class="pc__name" data-open="' + p.id + '">' + both(esc(p.name.ar).replace('oversize', '<bdi>oversize</bdi>').replace('DMC', '<bdi>DMC</bdi>'), esc(p.name.en)) + '</h3>' +
+          '<p class="pc__price">' + price(p.price) + '</p>' +
+          sw +
         '</div></article>';
     }).join('');
-    html += '<article class="pc pc--soon reveal"><a class="pc__soonbox" href="https://instagram.com/brkx.store" target="_blank" rel="noopener">' +
+    html += '<article class="pc pc--soon reveal" data-i="999" data-price="999999"><a class="pc__soonbox" href="https://instagram.com/brkx.store" target="_blank" rel="noopener">' +
       '<svg class="spark" aria-hidden="true"><use href="#spark"/></svg>' +
       '<strong>' + both('قطع جديدة قريبًا', 'More pieces soon') + '</strong>' +
       '<span>' + both('تابع <bdi>@brkx.store</bdi> لتعرف أولًا', 'Follow @brkx.store to hear first') + '</span></a></article>';
@@ -114,12 +116,90 @@
       var op = e.target.closest('[data-open]') || e.target.closest('.pc__name');
       if (op) { var cd = op.closest('.pc'); openProduct(cd.dataset.p, cd.dataset.c); }
     });
+    function updateCount() {
+      var n = $$('.pc:not(.pc--soon)', grid).filter(function (c) { return !c.hidden; }).length;
+      var el = $('#shopCount'); if (el) el.innerHTML = both(n === 1 ? 'قطعة واحدة' : n === 2 ? 'قطعتان' : arDigits(n) + (n <= 10 ? ' قطع' : ' قطعة'), n + (n === 1 ? ' piece' : ' pieces'));
+    }
     if (chips) chips.addEventListener('click', function (e) {
       var b = e.target.closest('.chip'); if (!b) return;
       $$('.chip', chips).forEach(function (x) { x.classList.toggle('is-active', x === b); });
       $$('.pc', grid).forEach(function (card) { card.hidden = !(b.dataset.cat === 'all' || card.dataset.cat === b.dataset.cat || card.classList.contains('pc--soon')); });
+      updateCount();
+    });
+    var sortSel = $('#shopSort');
+    function sortLabels() { if (sortSel) $$('option', sortSel).forEach(function (o) { o.textContent = o.dataset[root.lang]; }); }
+    if (sortSel) sortSel.addEventListener('change', function () {
+      var mode = sortSel.value;
+      var cards = $$('.pc', grid).sort(function (a, b) {
+        if (a.classList.contains('pc--soon')) return 1; if (b.classList.contains('pc--soon')) return -1;
+        if (mode === 'low') return a.dataset.price - b.dataset.price;
+        if (mode === 'high') return b.dataset.price - a.dataset.price;
+        return a.dataset.i - b.dataset.i;
+      });
+      cards.forEach(function (c) { grid.appendChild(c); });
+    });
+    sortLabels(); updateCount();
+    var ltg = $('#langToggle'); if (ltg) ltg.addEventListener('click', function () { setTimeout(function () { sortLabels(); updateCount(); }, 0); });
+  })();
+
+  /* =========================================================
+     HEADER LINKS, MOBILE MENU, FOOTER LIST, ANNOUNCEMENT BAR
+     ========================================================= */
+  function pname(p) { return both(esc(p.name.ar).replace('oversize', '<bdi>oversize</bdi>').replace('DMC', '<bdi>DMC</bdi>'), esc(p.name.en)); }
+  (function renderNav() {
+    var nl = $('#navLinks');
+    if (nl) nl.innerHTML = '<a href="#shop">' + both('تسوّق الكل', 'Shop all') + '</a>' +
+      P.map(function (p) { return '<a href="#p-' + p.id + '" data-open="' + p.id + '">' + both(esc(p.name.ar).replace(' oversize', '').replace('بلوزة ', ''), esc(p.name.en.replace('Oversize ', ''))) + '</a>'; }).join('') +
+      '<a href="#looks">' + both('الإطلالات', 'Looks') + '</a>';
+    var fs = $('#footShop');
+    if (fs) fs.innerHTML = P.map(function (p) { return '<li><a href="#p-' + p.id + '" data-open="' + p.id + '">' + pname(p) + '</a></li>'; }).join('') + '<li><a href="#looks">' + both('الإطلالات', 'Looks') + '</a></li>';
+    var mb = $('#menuBody');
+    if (mb) mb.innerHTML =
+      '<p class="menu__label">' + both('تسوّق', 'Shop') + '</p>' +
+      '<ul class="menu__products">' + P.map(function (p) {
+        var c = p.colours[0];
+        return '<li><a href="#p-' + p.id + '" data-open="' + p.id + '"><img src="' + c.img + '" alt=""><span>' + pname(p) + '<em>' + price(p.price) + '</em></span>' + (p.badge ? '<b>' + both(esc(p.badge.ar), esc(p.badge.en)) + '</b>' : '') + '</a></li>';
+      }).join('') + '</ul>' +
+      '<ul class="menu__links">' +
+        '<li><a href="#shop">' + both('كل القطع', 'All pieces') + '</a></li>' +
+        '<li><a href="#looks">' + both('الإطلالات', 'Looks') + '</a></li>' +
+        '<li><a href="#qusai">' + both('عن قصي', 'About Qusai') + '</a></li>' +
+        '<li><a href="#faq">' + both('أسئلة شائعة', 'Questions') + '</a></li>' +
+      '</ul>' +
+      '<div class="menu__foot">' +
+        '<button class="btn btn--ghost menu__lang" type="button">' + both('English', 'العربية') + '</button>' +
+        '<a class="btn btn--solid js-wa" href="https://wa.me/' + S.phone + '" data-msg="general" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#wa"/></svg>' + both('واتساب', 'WhatsApp') + '</a>' +
+        '<p class="menu__ship"><svg class="spark" aria-hidden="true"><use href="#spark"/></svg>' + both('التوصيل لجميع المحافظات <bdi>' + num(S.delivery) + '</bdi> د.أ', 'Delivery across Jordan, JOD ' + num(S.delivery)) + '</p>' +
+      '</div>';
+    // any [data-open] link anywhere outside the grid/rail opens the product
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[data-open]');
+      if (!a) return;
+      e.preventDefault();
+      var menu = $('#menuSheet'); if (menu && !menu.hidden) closeOverlay(menu, true);
+      openProduct(a.dataset.open);
+    });
+    if (mb) mb.addEventListener('click', function (e) {
+      if (e.target.closest('.menu__lang')) { var lt = $('#langToggle'); if (lt) lt.click(); return; }
+      var a = e.target.closest('a[href^="#"]:not([data-open])');
+      if (a) closeOverlay($('#menuSheet'), true);
     });
   })();
+
+  (function announce() {
+    var msgs = $$('.announce__msg'), i = 0;
+    if (msgs.length < 2 || reduce) return;
+    setInterval(function () {
+      if (document.hidden) return;
+      msgs[i].classList.remove('is-active'); i = (i + 1) % msgs.length; msgs[i].classList.add('is-active');
+    }, 4000);
+  })();
+
+  function toast(html) {
+    var t = $('#toast'); if (!t) return;
+    t.innerHTML = html; t.classList.add('is-on');
+    clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove('is-on'); }, 2200);
+  }
 
   /* =========================================================
      LOOKS RAIL
@@ -228,7 +308,11 @@
           '<button class="btn btn--solid ps__add" type="button" data-autofocus>' + both('أضف إلى السلة', 'Add to bag') + '</button>' +
           '<button class="btn btn--ghost ps__now" type="button">' + both('اطلب الآن عبر واتساب', 'Order now on WhatsApp') + '</button>' +
         '</div>' +
-        '<p class="ps__ship"><svg class="spark" aria-hidden="true"><use href="#spark"/></svg>' + both('التوصيل لجميع محافظات المملكة ' + delivAr(), 'Delivery anywhere in Jordan ' + delivEn()) + '</p>' +
+        '<ul class="ps__trust">' +
+          '<li><svg class="ico" viewBox="0 0 32 32" aria-hidden="true"><use href="#truck"/></svg>' + both('التوصيل لجميع محافظات المملكة <bdi>' + num(S.delivery) + '</bdi> د.أ', 'Delivery anywhere in Jordan, JOD ' + num(S.delivery)) + '</li>' +
+          '<li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#wa"/></svg>' + both('الطلب يُرسل عبر واتساب برسالة جاهزة', 'Your order is sent on WhatsApp, already written') + '</li>' +
+        '</ul>' +
+        '<button class="ps__share" type="button">' + both('انسخ رابط القطعة', 'Copy link to this piece') + '</button>' +
         (p.specs && p.specs.length ? '<details class="ps__specs" open><summary>' + both('المواصفات', 'Details') + '</summary><ul>' + p.specs.map(function (s) { return '<li>' + both(esc(s.ar), esc(s.en)) + '</li>'; }).join('') + '</ul></details>' : '') +
       '</div>';
   }
@@ -265,6 +349,13 @@
     if (e.target.closest('.ps__now')) {
       if (needSize()) return;
       window.open(waUrl(orderMessage([{ p: cur.p, c: cur.c, s: cur.s, q: 1 }])), '_blank', 'noopener');
+      return;
+    }
+    if (e.target.closest('.ps__share')) {
+      var url = location.origin + location.pathname + '#p-' + cur.p + '-' + cur.c;
+      var done = function () { toast(both('تم نسخ الرابط', 'Link copied')); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function () { window.prompt('', url); });
+      else window.prompt('', url);
       return;
     }
     if ((t = e.target.closest('.js-wa'))) { t.href = waUrl(root.lang === 'ar' ? 'مرحبا، بدي مساعدة باختيار المقاس لـ' + byId[cur.p].name.ar + '.\nطولي: \nوزني: ' : 'Hi, could you help me pick a size for the ' + byId[cur.p].name.en + '?\nHeight: \nWeight: '); }
@@ -345,6 +436,7 @@
     try { localStorage.setItem('brkx-form-v1', JSON.stringify(form)); } catch (er) {}
   });
   $$('[data-bag]').forEach(function (b) { b.addEventListener('click', function () { openBag(false); }); });
+  $$('[data-menu]').forEach(function (b) { b.addEventListener('click', function () { openOverlay($('#menuSheet')); }); });
   var dockBtn = $('#dock .dock__btn');
   if (dockBtn) dockBtn.addEventListener('click', function () {
     if (dockBtn.dataset.action === 'bag') openBag(false);
