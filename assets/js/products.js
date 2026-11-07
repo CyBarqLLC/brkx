@@ -13,7 +13,7 @@
 */
 window.BRKX_STORE = {
   phone: '962796673484',
-  delivery: 1,               // JOD, flat, every order, all governorates
+  delivery: 1.75,            // JOD, flat, every order, all governorates
   sizesDefault: ['M', 'L', 'XL', 'XXL'],
 
   categories: [

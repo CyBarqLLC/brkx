@@ -28,6 +28,9 @@
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
 
+  /* delivery amount in static page text follows products.js */
+  $$('.js-deliv-amt').forEach(function (el) { el.textContent = num(S.delivery); });
+
   /* =========================================================
      HERO (data-driven slides)
      ========================================================= */
@@ -284,7 +287,7 @@
     var dock = $('#dock');
     if (dock) {
       $('.dock__text', dock).innerHTML = n
-        ? '<strong>' + both('في السلة ' + arDigits(n) + (n === 1 ? ' قطعة' : n === 2 ? ' قطعتان' : n <= 10 ? ' قطع' : ' قطعة'), n + (n === 1 ? ' item' : ' items') + ' in your bag') + '</strong><span>' + both('الإجمالي <bdi>' + num(sub + S.delivery) + '</bdi> د.أ مع التوصيل', 'JOD ' + num(sub + S.delivery) + ' with delivery') + '</span>'
+        ? '<strong>' + both(n === 1 ? 'في السلة قطعة واحدة' : n === 2 ? 'في السلة قطعتان' : 'في السلة ' + arDigits(n) + (n <= 10 ? ' قطع' : ' قطعة'), n + (n === 1 ? ' item' : ' items') + ' in your bag') + '</strong><span>' + both('الإجمالي <bdi>' + num(sub + S.delivery) + '</bdi> د.أ مع التوصيل', 'JOD ' + num(sub + S.delivery) + ' with delivery') + '</span>'
         : '<strong>' + both('تسوّق قطع BRKX', 'Shop BRKX') + '</strong><span>' + both('التوصيل لجميع المحافظات ' + delivAr(), 'Delivery anywhere in Jordan ' + delivEn()) + '</span>';
       var db = $('.dock__btn', dock);
       db.innerHTML = n ? both('السلة', 'Bag') : both('تسوّق', 'Shop');
