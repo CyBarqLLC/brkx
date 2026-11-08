@@ -67,10 +67,11 @@ window.BRKX_STORE = {
         { ar: 'شعار صغير على الصدر', en: 'Small logo on the chest' }
       ],
       colours: [
-        { id: 'charcoal',  ar: 'رمادي غامق', en: 'Dark Grey',   hex: '#4B4C55', img: 'assets/img/crew-charcoal-640.webp',  imgLarge: 'assets/img/crew-charcoal-1080.webp',  alt: 'assets/img/crew-charcoal-alt-640.webp',  video: 'assets/video/crew-charcoal.mp4',  poster: 'assets/img/poster-crew-charcoal.webp' },
-        { id: 'beige',     ar: 'بيج',        en: 'Beige',      hex: '#C9B08E', img: 'assets/img/crew-beige-640.webp',     imgLarge: 'assets/img/crew-beige-1080.webp',     alt: 'assets/img/crew-beige-alt-640.webp',     video: 'assets/video/crew-beige.mp4',     poster: 'assets/img/poster-crew-beige.webp' },
-        { id: 'cream',     ar: 'سكري',       en: 'Off-white',      hex: '#F1ECDF', img: 'assets/img/crew-cream-640.webp',     imgLarge: 'assets/img/crew-cream-1080.webp',     alt: 'assets/img/crew-cream-alt-640.webp',     video: 'assets/video/crew-cream.mp4',     poster: 'assets/img/poster-crew-cream.webp' },
-        { id: 'lightgrey', ar: 'رمادي فاتح', en: 'Light Grey', hex: '#B9B5B4', img: 'assets/img/crew-lightgrey-640.webp', imgLarge: 'assets/img/crew-lightgrey-1080.webp', alt: 'assets/img/crew-lightgrey-alt-640.webp', video: 'assets/video/crew-lightgrey.mp4', poster: 'assets/img/poster-crew-lightgrey.webp' }
+        { id: 'charcoal',  ar: 'رمادي غامق', en: 'Dark Grey',  hex: '#4B4C55', img: 'assets/img/crew2-charcoal-640.webp',  imgLarge: 'assets/img/crew2-charcoal-1080.webp',  alt: 'assets/img/crew-charcoal-640.webp', video: 'assets/video/crew-charcoal.mp4',  poster: 'assets/img/poster-crew-charcoal.webp' },
+        { id: 'black',     ar: 'أسود',       en: 'Black',      hex: '#1E1E21', img: 'assets/img/crew2-black-640.webp',     imgLarge: 'assets/img/crew2-black-1080.webp' },
+        { id: 'beige',     ar: 'بيج',        en: 'Beige',      hex: '#D2B483', img: 'assets/img/crew2-beige-640.webp',     imgLarge: 'assets/img/crew2-beige-1080.webp',     alt: 'assets/img/crew-beige-640.webp',    video: 'assets/video/crew-beige.mp4',     poster: 'assets/img/poster-crew-beige.webp' },
+        { id: 'cream',     ar: 'سكري',       en: 'Off-white',  hex: '#F1ECDF', img: 'assets/img/crew2-cream-640.webp',     imgLarge: 'assets/img/crew2-cream-1080.webp',     alt: 'assets/img/crew-cream-640.webp',    video: 'assets/video/crew-cream.mp4',     poster: 'assets/img/poster-crew-cream.webp' },
+        { id: 'lightgrey', ar: 'رمادي فاتح', en: 'Light Grey', hex: '#B4B6B8', img: 'assets/img/crew2-lightgrey-640.webp', imgLarge: 'assets/img/crew2-lightgrey-1080.webp', video: 'assets/video/crew-lightgrey.mp4', poster: 'assets/img/poster-crew-lightgrey.webp' }
       ],
       films: [
         { video: 'assets/video/crew-charcoal.mp4',  poster: 'assets/img/poster-crew-charcoal.webp',  colour: 'charcoal' },
