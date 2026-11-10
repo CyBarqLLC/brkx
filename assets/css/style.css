@@ -963,3 +963,22 @@ html[dir="rtl"] .sheet--menu .sheet__panel { transform: translateX(100%); }
 .menu__products a > span { display: grid; gap: 2px; }
 .menu__products b { white-space: normal; max-width: 92px; text-align: center; line-height: 1.3; }
 .menu__products a > span { min-width: 0; }
+
+/* ---------- bundle offer ---------- */
+.bag__disc { color: #B3261E; }
+.bag__offer { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 12px 14px; border-radius: 10px; border: 1px dashed var(--line-strong); font-size: 15px; color: var(--green); }
+.bag__offer .spark { width: 14px; height: 14px; flex: none; }
+.promo { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; padding: 20px; }
+.promo__scrim { position: absolute; inset: 0; background: rgba(0, 40, 38, .55); opacity: 0; transition: opacity .35s; }
+.promo__card { position: relative; width: min(420px, 100%); max-height: calc(100dvh - 40px); overflow: auto; background: #fff; color: var(--green); border-radius: 18px; box-shadow: 0 30px 80px rgba(0, 40, 38, .35); opacity: 0; transform: translateY(24px) scale(.97); transition: opacity .35s, transform .5s var(--ease); }
+.promo.is-on .promo__scrim { opacity: 1; }
+.promo.is-on .promo__card { opacity: 1; transform: none; }
+.promo__pics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--shade); }
+.promo__pics img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; }
+.promo__body { padding: 22px 22px 24px; text-align: center; display: grid; gap: 10px; }
+.promo__title { font-size: clamp(30px, 8vw, 38px); line-height: 1.15; font-weight: 700; margin: 0; }
+.promo__price { font-size: 20px; margin: 0; }
+.promo__price s { opacity: .45; font-size: .85em; margin-inline-start: 6px; }
+.promo__text { font-size: 15px; color: var(--ink-2); margin: 0 0 6px; }
+.promo__go { width: 100%; justify-content: center; }
+.promo__x { position: absolute; top: 10px; inset-inline-end: 10px; z-index: 1; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .92); color: var(--green); font-size: 24px; line-height: 1; cursor: pointer; box-shadow: 0 2px 10px rgba(0, 0, 0, .12); }

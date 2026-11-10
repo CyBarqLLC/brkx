@@ -13,7 +13,8 @@
 */
 window.BRKX_STORE = {
   phone: '962796673484',
-  delivery: 1.75,            // JOD, flat, every order, all governorates
+  delivery: 2,               // JOD, flat, every order, all governorates
+  offer: { qty: 3, price: 38, category: 'knitwear' },   // any 3 pieces from this category for 38 JOD. Delete the line to stop the offer.
   sizesDefault: ['M', 'L', 'XL', 'XXL'],
 
   categories: [
@@ -29,7 +30,7 @@ window.BRKX_STORE = {
       name:    { ar: 'بلوزة هنلي oversize', en: 'Oversize Henley' },
       title:   { ar: ['بلـوزة هنلي', 'oversize.'], en: ['The oversize', 'Henley.'] },
       tagline: { ar: 'بلوزة محبوكة بياقة وأزرار، وقصّة واسعة.', en: 'Knit sweater with a buttoned collar and a loose fit.' },
-      price: 13.5,
+      price: 15,
       sizes: ['M', 'L', 'XL', 'XXL'],
       hero: { video: 'assets/video/qusai-720.mp4', videoSmall: 'assets/video/qusai-480.mp4', poster: 'assets/img/poster-qusai.webp' },
       specs: [
@@ -97,12 +98,12 @@ window.BRKX_STORE = {
         { ar: 'كم طويل', en: 'Long sleeves' }
       ],
       colours: [
-        { id: 'navy',  ar: 'كحلي',       en: 'Navy',       hex: '#22305A', img: 'assets/img/style-navy-640.webp',  imgLarge: 'assets/img/style-navy-1080.webp',  alt: 'assets/img/style-navy-alt-640.webp',  video: 'assets/video/style-navy.mp4',  poster: 'assets/img/poster-style-navy.webp' },
-        { id: 'black', ar: 'أسود',       en: 'Black',      hex: '#1B1B1D', img: 'assets/img/style-black-640.webp', imgLarge: 'assets/img/style-black-1080.webp', alt: 'assets/img/style-black-alt-640.webp' },
-        { id: 'cream', ar: 'سكري',       en: 'Off-white',      hex: '#EDE6CF', img: 'assets/img/style-cream-640.webp', imgLarge: 'assets/img/style-cream-1080.webp', alt: 'assets/img/style-cream-alt-640.webp', video: 'assets/video/style-cream.mp4', poster: 'assets/img/poster-style-cream.webp' },
-        { id: 'brown', ar: 'بني',        en: 'Brown',      hex: '#4A2F28', img: 'assets/img/style-brown-640.webp', imgLarge: 'assets/img/style-brown-1080.webp', alt: 'assets/img/style-brown-alt-640.webp', video: 'assets/video/style-brown.mp4', poster: 'assets/img/poster-style-brown.webp' },
-        { id: 'grey',  ar: 'رمادي فاتح', en: 'Light Grey', hex: '#B8BBBE', img: 'assets/img/style-grey-640.webp',  imgLarge: 'assets/img/style-grey-1080.webp',  alt: 'assets/img/style-grey-alt-640.webp',  video: 'assets/video/style-grey.mp4',  poster: 'assets/img/poster-style-grey.webp' },
-        { id: 'beige', ar: 'بيج',        en: 'Beige',      hex: '#C2A882', img: 'assets/img/style-beige-640.webp', imgLarge: 'assets/img/style-beige-1080.webp', alt: 'assets/img/style-beige-alt-640.webp', video: 'assets/video/style-beige.mp4', poster: 'assets/img/poster-style-beige.webp' }
+        { id: 'navy',  ar: 'كحلي',       en: 'Navy',       hex: '#22305A', img: 'assets/img/style2-navy-640.webp', imgLarge: 'assets/img/style2-navy-1080.webp', alt: 'assets/img/style-navy-640.webp',  video: 'assets/video/style-navy.mp4',  poster: 'assets/img/poster-style-navy.webp' },
+        { id: 'black', ar: 'أسود',       en: 'Black',      hex: '#1B1B1D', img: 'assets/img/style2-black-640.webp', imgLarge: 'assets/img/style2-black-1080.webp', alt: 'assets/img/style-black-640.webp' },
+        { id: 'cream', ar: 'سكري',       en: 'Off-white',      hex: '#EDE6CF', img: 'assets/img/style2-cream-640.webp', imgLarge: 'assets/img/style2-cream-1080.webp', alt: 'assets/img/style-cream-640.webp', video: 'assets/video/style-cream.mp4', poster: 'assets/img/poster-style-cream.webp' },
+        { id: 'brown', ar: 'بني',        en: 'Brown',      hex: '#4A2F28', img: 'assets/img/style2-brown-640.webp', imgLarge: 'assets/img/style2-brown-1080.webp', alt: 'assets/img/style-brown-640.webp', video: 'assets/video/style-brown.mp4', poster: 'assets/img/poster-style-brown.webp' },
+        { id: 'grey',  ar: 'رمادي فاتح', en: 'Light Grey', hex: '#B8BBBE', img: 'assets/img/style2-grey-640.webp', imgLarge: 'assets/img/style2-grey-1080.webp', alt: 'assets/img/style-grey-640.webp',  video: 'assets/video/style-grey.mp4',  poster: 'assets/img/poster-style-grey.webp' },
+        { id: 'beige', ar: 'بيج',        en: 'Beige',      hex: '#C2A882', img: 'assets/img/style2-beige-640.webp', imgLarge: 'assets/img/style2-beige-1080.webp', alt: 'assets/img/style-beige-640.webp', video: 'assets/video/style-beige.mp4', poster: 'assets/img/poster-style-beige.webp' }
       ],
       films: [
         { video: 'assets/video/style-navy.mp4',  poster: 'assets/img/poster-style-navy.webp',  colour: 'navy' },

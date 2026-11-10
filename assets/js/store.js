@@ -19,7 +19,7 @@
   function price(n, unitAr, unitEn) {
     return both('<bdi>' + num(n) + '</bdi> ' + (unitAr || 'د.أ'), (unitEn || 'JOD') + ' ' + num(n));
   }
-  function delivAr() { return S.delivery === 1 ? 'بدينار واحد' : 'بـ' + num(S.delivery) + ' د.أ'; }
+  function delivAr() { return S.delivery === 1 ? 'بدينار واحد' : S.delivery === 2 ? 'بدينارين' : 'بـ' + num(S.delivery) + ' د.أ'; }
   function delivEn() { return S.delivery === 1 ? 'for 1 JOD' : 'for JOD ' + num(S.delivery); }
   function L(o) { return o ? (o[root.lang] || o.ar) : ''; }
   function colourOf(p, cid) { for (var i = 0; i < p.colours.length; i++) if (p.colours[i].id === cid) return p.colours[i]; return p.colours[0]; }
@@ -228,6 +228,17 @@
   function saveBag() { try { localStorage.setItem(KEY, JSON.stringify(bag)); } catch (e) {} }
   function bagCount() { return bag.reduce(function (s, it) { return s + it.q; }, 0); }
   function bagSubtotal() { return bag.reduce(function (s, it) { return s + byId[it.p].price * it.q; }, 0); }
+  /* bundle offer: every group of O.qty eligible pieces costs O.price. The dearest pieces are grouped first. */
+  function offerInfo(items) {
+    var O = S.offer, units = [];
+    if (!O) return { disc: 0, groups: 0, left: 0, n: 0 };
+    items.forEach(function (it) { var p = byId[it.p]; if (p && p.category === O.category) for (var k = 0; k < it.q; k++) units.push(p.price); });
+    units.sort(function (a, b) { return b - a; });
+    var groups = Math.floor(units.length / O.qty), full = 0;
+    for (var i = 0; i < groups * O.qty; i++) full += units[i];
+    var disc = Math.max(0, full - groups * O.price);
+    return { disc: Math.round(disc * 1000) / 1000, groups: groups, n: units.length, left: units.length ? (O.qty - units.length % O.qty) % O.qty : O.qty };
+  }
   function addToBag(pid, cid, size, q) {
     var key = pid + '|' + cid + '|' + (size || '');
     for (var i = 0; i < bag.length; i++) if (bag[i].k === key) { bag[i].q += q || 1; saveBag(); renderBag(); return; }
@@ -240,14 +251,14 @@
     return n + ') ' + p.name.en + '\n   Colour: ' + c.en + (it.s ? ', Size: ' + it.s : '') + ', Qty: ' + it.q + ', Price: JOD ' + num(p.price * it.q);
   }
   function orderMessage(items, extra) {
-    var lang = root.lang, sub = items.reduce(function (s, it) { return s + byId[it.p].price * it.q; }, 0), tot = sub + S.delivery;
+    var lang = root.lang, sub = items.reduce(function (s, it) { return s + byId[it.p].price * it.q; }, 0), od = offerInfo(items).disc, tot = sub - od + S.delivery;
     var lines = items.map(function (it, i) { return itemLine(it, i + 1, lang); }).join('\n');
     var x = extra || {};
     if (lang === 'ar') {
-      return 'مرحبا قصي، بدي أطلب من BRKX:\n\n' + lines + '\n\nالمجموع: ' + num(sub) + ' د.أ\nالتوصيل: ' + num(S.delivery) + ' د.أ\nالإجمالي: ' + num(tot) + ' د.أ' +
+      return 'مرحبا قصي، بدي أطلب من BRKX:\n\n' + lines + '\n\nالمجموع: ' + num(sub) + ' د.أ' + (od ? '\nخصم عرض ' + S.offer.qty + ' بلايز: ' + '-' + num(od) + ' د.أ' : '') + '\nالتوصيل: ' + num(S.delivery) + ' د.أ\nالإجمالي: ' + num(tot) + ' د.أ' +
         (x.name ? '\n\nالاسم: ' + x.name : '') + (x.gov ? '\nالمحافظة: ' + x.gov : '') + (x.addr ? '\nالعنوان: ' + x.addr : '');
     }
-    return "Hi Qusai, I'd like to order from BRKX:\n\n" + lines + '\n\nSubtotal: JOD ' + num(sub) + '\nDelivery: JOD ' + num(S.delivery) + '\nTotal: JOD ' + num(tot) +
+    return "Hi Qusai, I'd like to order from BRKX:\n\n" + lines + '\n\nSubtotal: JOD ' + num(sub) + (od ? '\n' + S.offer.qty + '-piece offer: -JOD ' + num(od) : '') + '\nDelivery: JOD ' + num(S.delivery) + '\nTotal: JOD ' + num(tot) +
       (x.name ? '\n\nName: ' + x.name : '') + (x.gov ? '\nGovernorate: ' + x.gov : '') + (x.addr ? '\nAddress: ' + x.addr : '');
   }
   function waUrl(text) { return 'https://wa.me/' + S.phone + '?text=' + encodeURIComponent(text); }
@@ -368,7 +379,7 @@
   try { form = Object.assign(form, JSON.parse(localStorage.getItem('brkx-form-v1') || '{}')); } catch (e) {}
 
   function renderBag() {
-    var n = bagCount(), sub = bagSubtotal();
+    var n = bagCount(), sub = bagSubtotal(), oi = offerInfo(bag), tot = sub - oi.disc + S.delivery;
     $$('.bag-count').forEach(function (el) {
       var before = +(el.dataset.n || 0);
       el.textContent = root.lang === 'ar' ? arDigits(n) : n; el.hidden = n === 0; el.dataset.n = n;
@@ -377,7 +388,7 @@
     var dock = $('#dock');
     if (dock) {
       $('.dock__text', dock).innerHTML = n
-        ? '<strong>' + both(n === 1 ? 'في السلة قطعة واحدة' : n === 2 ? 'في السلة قطعتان' : 'في السلة ' + arDigits(n) + (n <= 10 ? ' قطع' : ' قطعة'), n + (n === 1 ? ' item' : ' items') + ' in your bag') + '</strong><span>' + both('الإجمالي <bdi>' + num(sub + S.delivery) + '</bdi> د.أ مع التوصيل', 'JOD ' + num(sub + S.delivery) + ' with delivery') + '</span>'
+        ? '<strong>' + both(n === 1 ? 'في السلة قطعة واحدة' : n === 2 ? 'في السلة قطعتان' : 'في السلة ' + arDigits(n) + (n <= 10 ? ' قطع' : ' قطعة'), n + (n === 1 ? ' item' : ' items') + ' in your bag') + '</strong><span>' + both('الإجمالي <bdi>' + num(tot) + '</bdi> د.أ مع التوصيل', 'JOD ' + num(tot) + ' with delivery') + '</span>'
         : '<strong>' + both('تسوّق قطع BRKX', 'Shop BRKX') + '</strong><span>' + both('التوصيل لجميع المحافظات ' + delivAr(), 'Delivery anywhere in Jordan ' + delivEn()) + '</span>';
       var db = $('.dock__btn', dock);
       db.innerHTML = n ? both('السلة', 'Bag') : both('تسوّق', 'Shop');
@@ -407,9 +418,13 @@
       '</div>' +
       '<div class="bag__sum">' +
         '<p><span>' + both('المجموع', 'Subtotal') + '</span><span>' + price(sub) + '</span></p>' +
+        (oi.disc ? '<p class="bag__disc"><span>' + both('خصم عرض ' + S.offer.qty + ' بلايز', S.offer.qty + '-piece offer') + '</span><span>' + both('<bdi dir="ltr">-' + num(oi.disc) + '</bdi> د.أ', '-JOD ' + num(oi.disc)) + '</span></p>' : '') +
         '<p><span>' + both('التوصيل لجميع المحافظات', 'Delivery, all of Jordan') + '</span><span>' + price(S.delivery) + '</span></p>' +
-        '<p class="bag__total"><span>' + both('الإجمالي', 'Total') + '</span><span>' + price(sub + S.delivery) + '</span></p>' +
+        '<p class="bag__total"><span>' + both('الإجمالي', 'Total') + '</span><span>' + price(tot) + '</span></p>' +
       '</div>' +
+      (S.offer && oi.n && oi.left ? '<p class="bag__offer"><svg class="spark" aria-hidden="true"><use href="#spark"/></svg>' + both(
+        (oi.left === 1 ? 'أضف قطعة وحدة كمان' : 'أضف قطعتين كمان') + ' وخذ الـ' + S.offer.qty + ' بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ',
+        'Add ' + oi.left + ' more and get ' + S.offer.qty + ' for JOD ' + num(S.offer.price)) + '</p>' : '') +
       '<button class="btn btn--solid bag__checkout" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#wa"/></svg>' + both('أرسل الطلب عبر واتساب', 'Send order on WhatsApp') + '</button>' +
       '<p class="bag__note">' + both('يفتح واتساب برسالة جاهزة فيها طلبك كاملًا، وقصي يؤكد معك الطلب.', 'WhatsApp opens with your full order written out, and Qusai confirms it with you.') + '</p>';
   }
@@ -518,5 +533,41 @@
       } else if (started) { t0 = now - pval() * DUR; }
       requestAnimationFrame(loop);
     })(performance.now());
+  })();
+  /* =========================================================
+     OFFER POPUP: shown once per visit
+     ========================================================= */
+  (function promo() {
+    var O = S.offer;
+    if (!O) return;
+    try { if (sessionStorage.getItem('brkx-promo-v1')) return; } catch (e) {}
+    var pics = P.filter(function (p) { return p.category === O.category; }).slice(0, 3).map(function (p) { return '<img src="' + p.colours[0].img + '" alt="">'; }).join('');
+    var full = P.filter(function (p) { return p.category === O.category; }).slice(0, O.qty).reduce(function (s, p) { return s + p.price; }, 0);
+    var el = document.createElement('div');
+    el.className = 'promo'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-labelledby', 'promoTitle');
+    el.innerHTML = '<div class="promo__scrim" data-x></div><div class="promo__card">' +
+      '<button class="promo__x" type="button" data-x aria-label="close">&times;</button>' +
+      '<div class="promo__pics">' + pics + '</div>' +
+      '<div class="promo__body">' +
+        '<h2 class="promo__title" id="promoTitle">' + both('عرض الـ<bdi>' + O.qty + '</bdi> بلايـز', 'Any ' + O.qty + ' for JOD ' + num(O.price)) + '</h2>' +
+        '<p class="promo__price">' + both('أي <bdi>' + O.qty + '</bdi> بلايز بـ<bdi>' + num(O.price) + '</bdi> د.أ' + (full > O.price ? ' <s><bdi>' + num(full) + '</bdi></s>' : ''), 'Mix any ' + O.qty + ' pieces for JOD ' + num(O.price) + (full > O.price ? ' <s>' + num(full) + '</s>' : '')) + '</p>' +
+        '<p class="promo__text">' + both('اختار الموديلات والألوان والمقاسات اللي بدك ياها، والخصم بينحسب بالسلة لحاله.', 'Pick any styles, colours and sizes. The discount is applied in your bag.') + '</p>' +
+        '<button class="btn btn--solid promo__go" type="button" data-go>' + both('تسوّق العرض', 'Shop the offer') + '</button>' +
+      '</div></div>';
+    function close(go) {
+      el.classList.remove('is-on');
+      try { sessionStorage.setItem('brkx-promo-v1', '1'); } catch (e) {}
+      document.removeEventListener('keydown', onKey);
+      setTimeout(function () { el.remove(); }, 400);
+      if (go) { var s = $('#shop'); if (s) s.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+    }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    el.addEventListener('click', function (e) { if (e.target.closest('[data-go]')) close(true); else if (e.target.closest('[data-x]')) close(); });
+    setTimeout(function () {
+      if (openLayer) return;
+      document.body.appendChild(el); void el.offsetWidth; el.classList.add('is-on');
+      document.addEventListener('keydown', onKey);
+      var g = $('.promo__go', el); if (g) g.focus({ preventScroll: true });
+    }, 1200);
   })();
 })();
