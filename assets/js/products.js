@@ -14,7 +14,7 @@
 window.BRKX_STORE = {
   phone: '962796673484',
   delivery: 2,               // JOD, flat, every order, all governorates
-  offer: { qty: 3, price: 38, category: 'knitwear' },   // any 3 pieces from this category for 38 JOD. Delete the line to stop the offer.
+  offer: { qty: 3, price: 40, category: 'knitwear' },   // any 3 pieces from this category for 40 JOD. Delete the line to stop the offer.
   sizesDefault: ['M', 'L', 'XL', 'XXL'],
 
   categories: [
