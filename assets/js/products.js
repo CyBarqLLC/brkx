@@ -18,7 +18,7 @@ window.BRKX_STORE = {
   sizesDefault: ['M', 'L', 'XL', 'XXL'],
 
   categories: [
-    { id: 'knitwear',    ar: 'بلايز',        en: 'Knitwear' },
+    { id: 'knitwear',    ar: 'الملابس المحبوكة', en: 'Knitwear' },
     { id: 'accessories', ar: 'إكسسوارات',    en: 'Accessories' },
     { id: 'other',       ar: 'منتجات أخرى',  en: 'More' }
   ],

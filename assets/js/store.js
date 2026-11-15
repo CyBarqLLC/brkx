@@ -20,7 +20,7 @@
   function nameHtml(p) { return both(esc(p.name.ar).replace(/(oversize|DMC)/g, '<bdi>$1</bdi>'), esc(p.name.en)); }
   function colourOf(p, id) { for (var i = 0; i < p.colours.length; i++) if (p.colours[i].id === id) return p.colours[i]; return p.colours[0]; }
   function sizesOf(p) { return p.sizes === undefined ? S.sizesDefault : p.sizes; }
-  function piecesAr(n) { return n === 1 ? 'قطعة وحدة' : n === 2 ? 'قطعتين' : n + (n <= 10 ? ' قطع' : ' قطعة'); }
+  function piecesAr(n) { return n === 1 ? 'قطعة واحدة' : n === 2 ? 'قطعتان' : n + (n <= 10 ? ' قطع' : ' قطعة'); }
   function piecesEn(n) { return n + (n === 1 ? ' piece' : ' pieces'); }
   function waUrl(text) { return 'https://wa.me/' + S.phone + (text ? '?text=' + encodeURIComponent(text) : ''); }
 
@@ -71,9 +71,9 @@
   }
   function nudgeHtml(o) {
     if (!S.offer || !o.n) return '';
-    if (!o.left) return '<p class="nudge is-got"><svg aria-hidden="true"><use href="#check"/></svg>' + both('تم تطبيق عرض الـ' + S.offer.qty + ' بلايز بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ', S.offer.qty + '-piece offer applied') + '</p>';
+    if (!o.left) return '<p class="nudge is-got"><svg aria-hidden="true"><use href="#check"/></svg>' + both('تم تطبيق عرض ' + S.offer.qty + ' قطع بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ', S.offer.qty + '-piece offer applied') + '</p>';
     return '<p class="nudge"><svg aria-hidden="true"><use href="#spark"/></svg>' + both(
-      (o.left === 1 ? 'أضف قطعة وحدة كمان' : 'أضف قطعتين كمان') + ' وخذ الـ' + S.offer.qty + ' بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ',
+      (o.left === 1 ? 'أضف قطعة أخرى' : 'أضف قطعتين أخريين') + ' لتحصل على ' + S.offer.qty + ' قطع بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ',
       'Add ' + o.left + ' more and get ' + S.offer.qty + ' for JOD ' + num(S.offer.price)) + '</p>';
   }
 
@@ -87,8 +87,8 @@
     });
     if (!bar) return;
     bar.hidden = !n;
-    $('.js-bar-count', bar).innerHTML = both(piecesAr(n) + '، شامل التوصيل', piecesEn(n) + ', delivery incl.');
-    $('.js-bar-total', bar).innerHTML = price(t.total);
+    $('.js-bar-count', bar).innerHTML = both(piecesAr(n) + ' في السلة', piecesEn(n) + ' in your bag');
+    $('.js-bar-total', bar).innerHTML = both('<bdi>' + num(t.total) + '</bdi> د.أ مع التوصيل', 'JOD ' + num(t.total) + ' incl. delivery');
   }
 
   /* ---------- toast ---------- */
@@ -133,7 +133,7 @@
     else r.sort(function (a, b) { return a.rank - b.rank; });
     return r;
   }
-  function itemsAr(n) { return n === 0 ? 'ولا قطعة' : n === 1 ? 'قطعة وحدة' : n === 2 ? 'قطعتين' : n + (n <= 10 ? ' قطع' : ' قطعة'); }
+  function itemsAr(n) { return n === 0 ? 'لا توجد قطع' : n === 1 ? 'قطعة واحدة' : n === 2 ? 'قطعتان' : n + (n <= 10 ? ' قطع' : ' قطعة'); }
   function shortName(p) { return { ar: p.name.ar.replace(/^بلوزة\s+/, ''), en: p.name.en }; }
 
   /* ---------- wishlist ---------- */
@@ -143,8 +143,8 @@
   function isWish(k) { return wish.indexOf(k) > -1; }
   function toggleWish(k) {
     var i = wish.indexOf(k);
-    if (i > -1) { wish.splice(i, 1); toast(both('انشالت من المفضلة', 'Removed from wishlist')); }
-    else { wish.push(k); toast(both('انحفظت بالمفضلة', 'Saved to wishlist')); }
+    if (i > -1) { wish.splice(i, 1); toast(both('أُزيلت من المفضلة', 'Removed from wishlist')); }
+    else { wish.push(k); toast(both('حُفظت في المفضلة', 'Saved to wishlist')); }
     saveWish();
     $$('[data-wish="' + k + '"]').forEach(function (b) { b.classList.toggle('is-on', isWish(k)); b.setAttribute('aria-pressed', isWish(k)); });
   }
@@ -165,7 +165,7 @@
       '<a class="card__body" href="#p-' + it.key + '" data-open>' +
         '<span class="card__price">' + price(p.price) + '</span>' +
         '<span class="card__name">' + nameHtml(p) + '</span>' +
-        '<span class="card__meta">' + both(esc(c.ar) + (n > 1 ? '، و' + (n - 1 === 1 ? 'لون ثاني' : n - 1 === 2 ? 'لونين كمان' : (n - 1) + ' ألوان كمان') : ''), esc(c.en) + (n > 1 ? ', +' + (n - 1) + ' colours' : '')) + '</span>' +
+        '<span class="card__meta">' + both(esc(c.ar) + (n > 1 ? '، و' + (n - 1 === 1 ? 'لون آخر' : n - 1 === 2 ? 'لونان آخران' : (n - 1) + ' ألوان أخرى') : ''), esc(c.en) + (n > 1 ? ', +' + (n - 1) + ' colours' : '')) + '</span>' +
       '</a>' +
     '</article>';
   }
@@ -185,16 +185,16 @@
     if (F.q) out.push(['q', F.q, '"' + esc(F.q) + '"']);
     if (!out.length) return '';
     return out.map(function (o) { return '<button type="button" class="fchip" data-unset="' + o[0] + '" data-val="' + esc(o[1]) + '">' + o[2] + '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" stroke="currentColor" stroke-width="2"/></svg></button>'; }).join('') +
-      '<button type="button" class="fchip fchip--clear" data-clear>' + both('مسح الكل', 'Clear all') + '</button>';
+      '<button type="button" class="fchip fchip--clear" data-clear>' + both('إزالة الكل', 'Clear all') + '</button>';
   }
-  var SORT_L = { featured: ['المميز', 'Featured'], 'new': ['الجديد أولاً', 'Newest'], low: ['السعر: من الأقل', 'Price: low to high'], high: ['السعر: من الأعلى', 'Price: high to low'] };
+  var SORT_L = { featured: ['المميزة', 'Featured'], 'new': ['الأحدث', 'Newest'], low: ['السعر: من الأقل', 'Price: low to high'], high: ['السعر: من الأعلى', 'Price: high to low'] };
   function renderGrid() {
     if (!grid) return;
     $$('#sort option').forEach(function (o) { o.textContent = SORT_L[o.value][isAr() ? 0 : 1]; });
-    var si0 = $('#search'); if (si0) si0.placeholder = isAr() ? 'ابحث بالاسم أو اللون، مثلاً: كحلي' : 'Search by name or colour, e.g. navy';
+    var si0 = $('#search'); if (si0) si0.placeholder = isAr() ? 'ابحث باسم القطعة أو اللون' : 'Search by name or colour, e.g. navy';
     var r = results();
     grid.innerHTML = r.length ? r.map(cardHtml).join('') :
-      '<div class="noresults"><p>' + both('ما في قطع بهالفلترة.', 'Nothing matches these filters.') + '</p><button type="button" class="btn btn--line" data-clear>' + both('مسح الفلترة', 'Clear filters') + '</button></div>';
+      '<div class="noresults"><p>' + both('لا توجد قطع تطابق اختيارك.', 'Nothing matches these filters.') + '</p><button type="button" class="btn btn--line" data-clear>' + both('إزالة التصفية', 'Clear filters') + '</button></div>';
     $$('.js-shop-count').forEach(function (el) { el.innerHTML = both(itemsAr(r.length), r.length + (r.length === 1 ? ' item' : ' items')); });
     var fb = $('#filterBtn .js-fcount'); if (fb) { var n = F.model.length + F.colour.length + F.price.length; fb.textContent = n; fb.hidden = !n; }
     var ch = $('#chips'); if (ch) { ch.innerHTML = chipsHtml(); ch.hidden = !ch.innerHTML; }
@@ -221,7 +221,7 @@
         return '<button type="button" class="fcol' + (on ? ' is-on' : '') + (n || on ? '' : ' is-empty') + '" data-dim="colour" data-val="' + esc(c.ar) + '" aria-pressed="' + on + '"><i style="background:' + c.hex + '"></i><span>' + both(esc(c.ar), esc(c.en)) + '</span></button>';
       }).join('') + '</div></section>' +
       '<section class="fgroup"><h3>' + both('السعر', 'Price') + '</h3>' + PRICES.map(function (v) { return opt('price', String(v), price(v)); }).join('') + '</section>';
-    var go = $('#fapply'); if (go) { var n = results().length; go.innerHTML = both('اعرض ' + itemsAr(n), 'Show ' + n + (n === 1 ? ' item' : ' items')); }
+    var go = $('#fapply'); if (go) { var n = results().length; go.innerHTML = both('عرض ' + itemsAr(n), 'Show ' + n + (n === 1 ? ' item' : ' items')); }
   }
   function toggleIn(arr, v) { var i = arr.indexOf(v); if (i > -1) arr.splice(i, 1); else arr.push(v); }
   function clearAll() { F.model = []; F.colour = []; F.price = []; F.q = ''; var si = $('#search'); if (si) si.value = ''; renderGrid(); }
@@ -270,9 +270,9 @@
     box.innerHTML = list.length ? '<ul class="items">' + list.map(function (it) {
       return '<li class="item" data-key="' + it.key + '"><img src="' + it.c.img + '" alt="">' +
         '<div><p class="item__name">' + nameHtml(it.p) + '</p><p class="item__meta">' + both(esc(it.c.ar), esc(it.c.en)) + '</p><p class="item__price">' + price(it.p.price) + '</p></div>' +
-        '<div class="item__end"><button type="button" class="btn btn--solid wbtn" data-wopen="' + it.key + '">' + both('اختار المقاس', 'Choose size') + '</button>' +
+        '<div class="item__end"><button type="button" class="btn btn--solid wbtn" data-wopen="' + it.key + '">' + both('اختر المقاس', 'Choose size') + '</button>' +
         '<button type="button" class="wrm" data-wish="' + it.key + '">' + both('إزالة', 'Remove') + '</button></div></li>';
-    }).join('') + '</ul>' : '<div class="empty">' + HEART + '<p>' + both('ما في شي بالمفضلة لسا.', 'Your wishlist is empty.') + '</p><p class="empty__sub">' + both('اضغط على القلب بأي قطعة لتحفظها هون.', 'Tap the heart on any piece to save it here.') + '</p></div>';
+    }).join('') + '</ul>' : '<div class="empty">' + HEART + '<p>' + both('لا توجد قطع في المفضلة بعد.', 'Your wishlist is empty.') + '</p><p class="empty__sub">' + both('اضغط على أيقونة القلب في أي قطعة لحفظها هنا.', 'Tap the heart on any piece to save it here.') + '</p></div>';
   }
   $$('[data-wishlist]').forEach(function (b) { b.addEventListener('click', function () { renderWishSheet(); showSheet($('#wish')); }); });
   var wsheet = $('#wish');
@@ -286,12 +286,12 @@
   var quick = { p: null, c: null };
   function openQuick(pid, cid) {
     var p = byId[pid], c = colourOf(p, cid), sz = sizesOf(p);
-    if (!sz) { addToBag(p.id, c.id, null); toast(both('انضافت للسلة', 'Added to bag')); return; }
+    if (!sz) { addToBag(p.id, c.id, null); toast(both('أُضيفت إلى السلة', 'Added to bag')); return; }
     quick = { p: p, c: c };
     $('#qbody').innerHTML = '<div class="q__item"><img src="' + c.img + '" alt=""><div><p class="item__name">' + nameHtml(p) + '</p><p class="item__meta">' + both(esc(c.ar), esc(c.en)) + '</p><p class="item__price">' + price(p.price) + '</p></div></div>' +
-      '<p class="pd__label">' + both('اختار المقاس وبتنضاف للسلة', 'Pick a size to add it') + '</p>' +
+      '<p class="pd__label">' + both('اختر المقاس لإضافتها إلى السلة', 'Pick a size to add it') + '</p>' +
       '<div class="sizes">' + sz.map(function (s) { return '<button type="button" class="size" data-qsize="' + s + '">' + s + '</button>'; }).join('') + '</div>' +
-      '<button type="button" class="q__more" data-qmore>' + both('شوف التفاصيل', 'View details') + '</button>';
+      '<button type="button" class="q__more" data-qmore>' + both('عرض التفاصيل', 'View details') + '</button>';
     showSheet($('#quick'));
   }
   var qs = $('#quick');
@@ -300,7 +300,7 @@
     if (t) {
       t.classList.add('is-on');
       addToBag(quick.p.id, quick.c.id, t.dataset.qsize);
-      setTimeout(function () { hideSheet(qs); toast(both('انضافت للسلة، المقاس <bdi>' + t.dataset.qsize + '</bdi>', 'Added to bag, size ' + t.dataset.qsize)); }, 180);
+      setTimeout(function () { hideSheet(qs); toast(both('أُضيفت إلى السلة، المقاس <bdi>' + t.dataset.qsize + '</bdi>', 'Added to bag, size ' + t.dataset.qsize)); }, 180);
       return;
     }
     if (e.target.closest('[data-qmore]')) { hideSheet(qs, true); openProduct(quick.p.id, quick.c.id); }
@@ -373,7 +373,7 @@
     var same = ITEMS.filter(function (it) { return it.p.id === p.id && it.c.id !== c.id; });
     var list = others.slice(0, 4).concat(same.slice(0, 4)).slice(0, 8);
     if (!list.length) return '';
-    return '<div class="related"><h3>' + both('قد يعجبك كمان', 'You may also like') + '</h3><div class="related__rail">' + list.map(function (it) {
+    return '<div class="related"><h3>' + both('قد يعجبك أيضاً', 'You may also like') + '</h3><div class="related__rail">' + list.map(function (it) {
       return '<button type="button" class="rcard" data-rel="' + it.key + '"><span class="rcard__img"><img src="' + it.c.img + '" alt="" loading="lazy"></span><span class="rcard__price">' + price(it.p.price) + '</span><span class="rcard__name">' + nameHtml(it.p) + '</span><span class="rcard__meta">' + both(esc(it.c.ar), esc(it.c.en)) + '</span></button>';
     }).join('') + '</div></div>';
   }
@@ -384,12 +384,12 @@
         '<span class="pd__zoomhint"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5 20 20M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></button></div>' +
       '<div class="pd__side">' +
         '<div class="pd__scroll"><div class="pd__info">' +
-          '<nav class="crumbs" aria-label="breadcrumb"><a href="#top" data-close>' + both('الرئيسية', 'Home') + '</a><span>/</span><a href="#shop" data-close data-crumb-all>' + both('البلايز', 'Knitwear') + '</a><span>/</span><b>' + nameHtml(p) + '</b></nav>' +
+          '<nav class="crumbs" aria-label="breadcrumb"><a href="#top" data-close>' + both('الرئيسية', 'Home') + '</a><span>/</span><a href="#shop" data-close data-crumb-all>' + both('القطع', 'Knitwear') + '</a><span>/</span><b>' + nameHtml(p) + '</b></nav>' +
           '<div class="pd__top">' + (p.badge ? '<p class="pd__badge">' + both(esc(p.badge.ar), esc(p.badge.en)) + '</p>' : '') +
             '<div class="pd__titlerow"><h2 class="pd__name" id="pTitle">' + nameHtml(p) + '</h2>' +
             '<button class="pd__heart' + (isWish(p.id + '-' + c.id) ? ' is-on' : '') + '" type="button" data-wish="' + p.id + '-' + c.id + '" aria-pressed="' + isWish(p.id + '-' + c.id) + '" aria-label="wishlist">' + HEART + '</button></div>' +
             '<p class="pd__price">' + price(p.price) + '</p>' +
-            (inOffer ? '<p class="pd__deal"><svg aria-hidden="true"><use href="#spark"/></svg>' + both('أي ' + S.offer.qty + ' بلايز بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ', 'Any ' + S.offer.qty + ' for JOD ' + num(S.offer.price)) + '</p>' : '') +
+            (inOffer ? '<p class="pd__deal"><svg aria-hidden="true"><use href="#spark"/></svg>' + both('أي ' + S.offer.qty + ' قطع بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ', 'Any ' + S.offer.qty + ' for JOD ' + num(S.offer.price)) + '</p>' : '') +
           '</div>' +
           (p.colours.length > 1 ? '<div class="pd__block"><p class="pd__label">' + both('اللون', 'Colour') + '<b>' + both(esc(c.ar), esc(c.en)) + '</b></p>' +
             '<div class="swatches">' + p.colours.map(function (k) {
@@ -399,20 +399,20 @@
             '<div class="sizes' + (state.warn ? ' is-shake' : '') + '">' + sz.map(function (s) {
               return '<button class="size' + (state.s === s ? ' is-on' : '') + '" type="button" data-size="' + s + '" aria-pressed="' + (state.s === s) + '">' + s + '</button>';
             }).join('') + '</div>' +
-            (state.warn ? '<p class="pd__warn">' + both('اختار المقاس أول', 'Please choose a size') + '</p>' : '') +
-            '<a class="pd__help" href="' + waUrl(isAr() ? 'مرحبا، بدي مساعدة باختيار مقاس ' + p.name.ar + '. طولي: ، وزني: ' : 'Hi, I need help choosing a size for the ' + p.name.en + '. Height: , weight: ') + '" target="_blank" rel="noopener">' + both('مش متأكد من مقاسك؟ اسألنا على واتساب', 'Not sure? Ask us on WhatsApp') + '</a></div>' : '') +
+            (state.warn ? '<p class="pd__warn">' + both('يرجى اختيار المقاس', 'Please choose a size') + '</p>' : '') +
+            '<a class="pd__help" href="' + waUrl(isAr() ? 'مرحباً، أحتاج مساعدة في اختيار مقاس ' + p.name.ar + '. الطول: ، الوزن: ' : 'Hi, I need help choosing a size for the ' + p.name.en + '. Height: , weight: ') + '" target="_blank" rel="noopener">' + both('تحتاج مساعدة في المقاس؟ تواصل معنا عبر واتساب', 'Not sure? Ask us on WhatsApp') + '</a></div>' : '') +
           '<div class="pd__more">' +
             '<details open><summary>' + both('تفاصيل القطعة', 'Details') + '</summary><ul class="specs">' +
               (p.tagline ? '<li>' + both(esc(p.tagline.ar), esc(p.tagline.en)) + '</li>' : '') +
               (p.specs || []).map(function (x) { return '<li>' + both(esc(x.ar), esc(x.en)) + '</li>'; }).join('') + '</ul></details>' +
-            (sz ? '<details><summary>' + both('المقاسات', 'Sizes') + '</summary><p>' + both('متوفرة بمقاسات <bdi>' + sz.join(' ') + '</bdi>. إذا محتار، ابعتلنا طولك ووزنك على واتساب ومنساعدك.', 'Available in ' + sz.join(', ') + '. Not sure? Send us your height and weight on WhatsApp.') + '</p></details>' : '') +
-            '<details><summary>' + both('التوصيل والطلب', 'Delivery and ordering') + '</summary><p>' + both('التوصيل لكل محافظات المملكة بـ<bdi>' + num(S.delivery) + '</bdi> د.أ للطلب كله. الطلب بيوصلنا على واتساب ومنأكد معك.', 'Delivery anywhere in Jordan for JOD ' + num(S.delivery) + ' per order. Your order reaches us on WhatsApp and we confirm it with you.') + '</p></details>' +
+            (sz ? '<details><summary>' + both('المقاسات', 'Sizes') + '</summary><p>' + both('تتوفر بمقاسات <bdi>' + sz.join(' ') + '</bdi>. وللمساعدة في اختيار المقاس، أرسل لنا طولك ووزنك عبر واتساب.', 'Available in ' + sz.join(', ') + '. Not sure? Send us your height and weight on WhatsApp.') + '</p></details>' : '') +
+            '<details><summary>' + both('التوصيل وتأكيد الطلب', 'Delivery and ordering') + '</summary><p>' + both('التوصيل إلى جميع محافظات المملكة بـ<bdi>' + num(S.delivery) + '</bdi> د.أ للطلب الواحد. يصلنا طلبك عبر واتساب ونتواصل معك لتأكيده.', 'Delivery anywhere in Jordan for JOD ' + num(S.delivery) + ' per order. Your order reaches us on WhatsApp and we confirm it with you.') + '</p></details>' +
           '</div>' +
           relatedHtml(p, c) +
         '</div></div>' +
         '<div class="pd__foot">' +
-          '<button class="btn btn--solid btn--arrow pd__add" type="button" data-add><span>' + both('أضف للسلة', 'ADD TO BAG') + '</span><svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></button>' +
-          '<button class="btn btn--line pd__buy" type="button" data-buy>' + both('اطلبها الآن', 'ORDER NOW') + '</button>' +
+          '<button class="btn btn--solid btn--arrow pd__add" type="button" data-add><span>' + both('أضف إلى السلة', 'ADD TO BAG') + '</span><svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></button>' +
+          '<button class="btn btn--line pd__buy" type="button" data-buy>' + both('اطلب الآن', 'ORDER NOW') + '</button>' +
         '</div>' +
       '</div>';
     state.warn = false;
@@ -420,12 +420,12 @@
   function renderDone() {
     var p = state.p, c = colourOf(p, state.c), o = offerInfo(bag);
     pdEl.innerHTML = '<div class="done">' +
-      '<p class="done__head"><i><svg aria-hidden="true"><use href="#check"/></svg></i>' + both('انضافت للسلة', 'Added to your bag') + '</p>' +
+      '<p class="done__head"><i><svg aria-hidden="true"><use href="#check"/></svg></i>' + both('أُضيفت إلى السلة', 'Added to your bag') + '</p>' +
       '<div class="done__item"><img src="' + c.img + '" alt=""><p>' + nameHtml(p) + '<small>' + both(esc(c.ar) + (state.s ? '، المقاس <bdi>' + state.s + '</bdi>' : ''), esc(c.en) + (state.s ? ', size ' + state.s : '')) + '</small></p></div>' +
       nudgeHtml(o) +
       '<div class="done__btns">' +
-        '<button class="btn btn--solid btn--block btn--arrow" type="button" data-go-checkout><span>' + both('اطلب الآن', 'ORDER NOW') + '</span><svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></button>' +
-        '<button class="btn btn--line btn--block" type="button" data-close>' + both('كمّل تسوّق', 'KEEP SHOPPING') + '</button>' +
+        '<button class="btn btn--solid btn--block btn--arrow" type="button" data-go-checkout><span>' + both('إتمام الطلب', 'CHECKOUT') + '</span><svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></button>' +
+        '<button class="btn btn--line btn--block" type="button" data-close>' + both('متابعة التسوّق', 'KEEP SHOPPING') + '</button>' +
       '</div></div>';
     var go = $('[data-go-checkout]', pdEl); if (go) go.focus({ preventScroll: true });
   }
@@ -464,7 +464,7 @@
   function renderCheckout(bad) {
     bad = bad || {};
     if (!bag.length) {
-      coEl.innerHTML = '<div class="empty"><svg aria-hidden="true"><use href="#spark"/></svg><p>' + both('السلة فاضية.', 'Your bag is empty.') + '</p>' +
+      coEl.innerHTML = '<div class="empty"><svg aria-hidden="true"><use href="#spark"/></svg><p>' + both('سلتك فارغة حالياً.', 'Your bag is empty.') + '</p>' +
         '<button class="btn btn--solid" type="button" data-shop>' + both('تسوّق الآن', 'Start shopping') + '</button></div>';
       return;
     }
@@ -480,22 +480,22 @@
       }).join('') + '</ul>' +
       nudgeHtml(t.offer) +
       '<div class="sum">' +
-        '<p><span>' + both('المجموع', 'Subtotal') + '</span><span>' + price(t.sub) + '</span></p>' +
+        '<p><span>' + both('قيمة القطع', 'Subtotal') + '</span><span>' + price(t.sub) + '</span></p>' +
         (t.disc ? '<p class="is-disc"><span>' + both('خصم العرض', 'Offer discount') + '</span><span>' + both('<bdi dir="ltr">-' + num(t.disc) + '</bdi> د.أ', '-JOD ' + num(t.disc)) + '</span></p>' : '') +
         '<p><span>' + both('التوصيل', 'Delivery') + '</span><span>' + price(S.delivery) + '</span></p>' +
         '<p class="is-total"><span>' + both('الإجمالي', 'Total') + '</span><span>' + price(t.total) + '</span></p>' +
       '</div>' +
       '<div class="form">' +
-        '<p class="form__title">' + both('لوين نوصّلها؟', 'Where should we deliver?') + '</p>' +
-        '<label class="fld' + (bad.name ? ' is-bad' : '') + '"><span>' + both('الاسم', 'Name') + '</span><input name="name" type="text" autocomplete="name" value="' + esc(form.name) + '"><em class="fld__err">' + both('اكتب اسمك', 'Enter your name') + '</em></label>' +
-        '<label class="fld' + (bad.gov ? ' is-bad' : '') + '"><span>' + both('المحافظة', 'Governorate') + '</span><select name="gov"><option value="">' + (isAr() ? 'اختار المحافظة' : 'Choose') + '</option>' +
+        '<p class="form__title">' + both('عنوان التوصيل', 'Where should we deliver?') + '</p>' +
+        '<label class="fld' + (bad.name ? ' is-bad' : '') + '"><span>' + both('الاسم الكامل', 'Full name') + '</span><input name="name" type="text" autocomplete="name" value="' + esc(form.name) + '"><em class="fld__err">' + both('يرجى إدخال الاسم', 'Enter your name') + '</em></label>' +
+        '<label class="fld' + (bad.gov ? ' is-bad' : '') + '"><span>' + both('المحافظة', 'Governorate') + '</span><select name="gov"><option value="">' + (isAr() ? 'اختر المحافظة' : 'Choose') + '</option>' +
           GOVS.map(function (g, i) { return '<option value="' + esc(g[0]) + '"' + (i === gi ? ' selected' : '') + '>' + esc(isAr() ? g[0] : g[1]) + '</option>'; }).join('') +
-        '</select><em class="fld__err">' + both('اختار المحافظة', 'Choose your governorate') + '</em></label>' +
-        '<label class="fld' + (bad.addr ? ' is-bad' : '') + '"><span>' + both('المنطقة والعنوان', 'Area and address') + '</span><input name="addr" type="text" autocomplete="street-address" value="' + esc(form.addr) + '"><em class="fld__err">' + both('اكتب منطقتك', 'Enter your area') + '</em></label>' +
+        '</select><em class="fld__err">' + both('يرجى اختيار المحافظة', 'Choose your governorate') + '</em></label>' +
+        '<label class="fld' + (bad.addr ? ' is-bad' : '') + '"><span>' + both('المنطقة والعنوان بالتفصيل', 'Area and full address') + '</span><input name="addr" type="text" autocomplete="street-address" value="' + esc(form.addr) + '"><em class="fld__err">' + both('يرجى إدخال العنوان', 'Enter your area') + '</em></label>' +
       '</div>' +
     '</div>' +
-    '<div class="co__foot"><button class="btn btn--solid co__send" type="button" data-send><svg aria-hidden="true"><use href="#wa"/></svg>' + both('أرسل الطلب على واتساب', 'SEND ORDER ON WHATSAPP') + '</button>' +
-      '<p class="co__note">' + both('بينفتح واتساب برسالة جاهزة فيها طلبك، وقصي بأكد معك.', 'WhatsApp opens with your order written out, and Qusai confirms it with you.') + '</p></div>';
+    '<div class="co__foot"><button class="btn btn--solid co__send" type="button" data-send><svg aria-hidden="true"><use href="#wa"/></svg>' + both('إرسال الطلب عبر واتساب', 'SEND ORDER ON WHATSAPP') + '</button>' +
+      '<p class="co__note">' + both('سيُفتح واتساب برسالة تتضمن طلبك، وسنتواصل معك لتأكيده.', 'WhatsApp opens with your order written out, and Qusai confirms it with you.') + '</p></div>';
   }
   function orderMessage() {
     var t = totals(bag), ar = isAr(), gi = govIndex(form.gov);
@@ -506,7 +506,7 @@
         : (i + 1) + ') ' + p.name.en + ' - ' + c.en + (it.s ? ' - ' + it.s : '') + ' - qty ' + it.q + ' - JOD ' + num(p.price * it.q);
     }).join('\n');
     if (ar) {
-      return 'مرحبا، بدي أطلب من BRKX STORE:\n\n' + lines + '\n\nالمجموع: ' + num(t.sub) + ' د.أ' +
+      return 'مرحباً، أودّ الطلب من BRKX STORE:\n\n' + lines + '\n\nالمجموع: ' + num(t.sub) + ' د.أ' +
         (t.disc ? '\nخصم العرض: -' + num(t.disc) + ' د.أ' : '') + '\nالتوصيل: ' + num(S.delivery) + ' د.أ\nالإجمالي: ' + num(t.total) + ' د.أ' +
         '\n\nالاسم: ' + form.name + '\nالمحافظة: ' + (gi > -1 ? GOVS[gi][0] : form.gov) + '\nالعنوان: ' + form.addr;
     }
@@ -545,7 +545,7 @@
   $$('[data-checkout]').forEach(function (b) { b.addEventListener('click', openCheckout); });
 
   /* general WhatsApp links */
-  $$('.js-wa').forEach(function (a) { a.href = waUrl(isAr() ? 'مرحبا، عندي سؤال عن BRKX STORE' : 'Hi, I have a question about BRKX STORE'); });
+  $$('.js-wa').forEach(function (a) { a.href = waUrl(isAr() ? 'مرحباً، لديّ استفسار بخصوص BRKX STORE' : 'Hi, I have a question about BRKX STORE'); });
 
   /* =========================================================
      MEDIA PROTECTION: no context menu, no drag, no long-press save
@@ -579,7 +579,7 @@
         '<button type="button" data-zi aria-label="zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12M12 6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>' +
       '</div>' +
       '<button class="zoom__x" type="button" data-zx aria-label="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
-      '<p class="zoom__hint">' + both('اقرص أو اضغط مرتين للتكبير', 'Pinch or double-tap to zoom') + '</p>';
+      '<p class="zoom__hint">' + both('قرّب بإصبعين أو اضغط مرتين للتكبير', 'Pinch or double-tap to zoom') + '</p>';
     document.body.appendChild(el);
     var frame = $('.zoom__frame', el), stage = $('.zoom__stage', el), img = $('img', el), pct = $('.zoom__pct', el);
     Z = { el: el, s: 1, x: 0, y: 0, src: src };
@@ -701,10 +701,10 @@
     el.innerHTML = '<div class="promo__scrim" data-x></div><div class="promo__card">' +
       '<button class="sheet__x" type="button" data-x aria-label="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
       '<div class="promo__pics">' + list.slice(0, 3).map(function (p) { return '<img src="' + p.colours[0].img + '" alt="">'; }).join('') + '</div>' +
-      '<div class="promo__body"><h2 class="promo__title" id="promoT">' + both('عرض الـ<bdi>' + O.qty + '</bdi> بلايـز', 'Any ' + O.qty + ' for JOD ' + num(O.price)) + '</h2>' +
-        '<p class="promo__price">' + both('أي <bdi>' + O.qty + '</bdi> بلايز بـ<bdi>' + num(O.price) + '</bdi> د.أ' + (full > O.price ? '<s><bdi>' + num(full) + '</bdi></s>' : ''), 'Mix any ' + O.qty + ' for JOD ' + num(O.price) + (full > O.price ? ' <s>' + num(full) + '</s>' : '')) + '</p>' +
-        '<p class="promo__text">' + both('اختار اللي بدك من الموديلات والألوان، والخصم بينحسب بالسلة لحاله.', 'Pick any styles and colours. The discount is applied in your bag.') + '</p>' +
-        '<button class="btn btn--solid btn--block" type="button" data-go>' + both('تسوّق العرض', 'Shop the offer') + '</button></div></div>';
+      '<div class="promo__body"><h2 class="promo__title" id="promoT">' + both('عرض القطع الثـلاث', 'Any ' + O.qty + ' for JOD ' + num(O.price)) + '</h2>' +
+        '<p class="promo__price">' + both('أي <bdi>' + O.qty + '</bdi> قطع بـ<bdi>' + num(O.price) + '</bdi> د.أ' + (full > O.price ? '<s><bdi>' + num(full) + '</bdi></s>' : ''), 'Mix any ' + O.qty + ' for JOD ' + num(O.price) + (full > O.price ? ' <s>' + num(full) + '</s>' : '')) + '</p>' +
+        '<p class="promo__text">' + both('اختر ما يناسبك من الموديلات والألوان، وسيُحتسب الخصم تلقائياً في السلة.', 'Pick any styles and colours. The discount is applied in your bag.') + '</p>' +
+        '<button class="btn btn--solid btn--block" type="button" data-go>' + both('تصفّح القطع', 'Shop the offer') + '</button></div></div>';
     function close(go) {
       el.classList.remove('is-on');
       try { sessionStorage.setItem('brkx-promo-v1', '1'); } catch (e) {}
