@@ -35,7 +35,7 @@
     var en = root.lang !== 'en';
     root.lang = en ? 'en' : 'ar'; root.dir = en ? 'ltr' : 'rtl';
     try { localStorage.setItem('brkx-lang', root.lang); } catch (e) {}
-    renderBar(); if (typeof renderGrid === 'function') renderGrid();
+    renderBar(); if (typeof renderGrid === 'function') renderGrid(true);
     if (state && $('#product').classList.contains('is-on') && !state.done) renderProduct();
     if ($('#checkout').classList.contains('is-on')) renderCheckout();
   });
@@ -88,7 +88,7 @@
     if (!bar) return;
     bar.hidden = !n;
     $('.js-bar-count', bar).innerHTML = both(piecesAr(n) + ' في السلة', piecesEn(n) + ' in your bag');
-    $('.js-bar-total', bar).innerHTML = both('<bdi>' + num(t.total) + '</bdi> د.أ مع التوصيل', 'JOD ' + num(t.total) + ' incl. delivery');
+    $('.js-bar-total', bar).innerHTML = price(t.sub - t.disc);
   }
 
   /* ---------- toast ---------- */
@@ -188,12 +188,22 @@
       '<button type="button" class="fchip fchip--clear" data-clear>' + both('إزالة الكل', 'Clear all') + '</button>';
   }
   var SORT_L = { featured: ['المميزة', 'Featured'], 'new': ['الأحدث', 'Newest'], low: ['السعر: من الأقل', 'Price: low to high'], high: ['السعر: من الأعلى', 'Price: high to low'] };
-  function renderGrid() {
+  var PAGE = 4, shown = PAGE;
+  function renderGrid(keep) {
     if (!grid) return;
+    if (!keep) shown = PAGE;
     $$('#sort option').forEach(function (o) { o.textContent = SORT_L[o.value][isAr() ? 0 : 1]; });
     var si0 = $('#search'); if (si0) si0.placeholder = isAr() ? 'ابحث باسم القطعة أو اللون' : 'Search by name or colour, e.g. navy';
     var r = results();
-    grid.innerHTML = r.length ? r.map(cardHtml).join('') :
+    var vis = r.slice(0, shown);
+    var more = $('#more');
+    if (more) {
+      more.hidden = r.length <= shown;
+      more.innerHTML = '<p class="more__n">' + both('تعرض ' + vis.length + ' من ' + r.length, 'Showing ' + vis.length + ' of ' + r.length) + '</p>' +
+        '<span class="more__bar"><i style="width:' + Math.round(100 * vis.length / Math.max(r.length, 1)) + '%"></i></span>' +
+        '<button type="button" class="btn btn--line" data-more>' + both('عرض المزيد', 'Show more') + '</button>';
+    }
+    grid.innerHTML = r.length ? vis.map(cardHtml).join('') :
       '<div class="noresults"><p>' + both('لا توجد قطع تطابق اختيارك.', 'Nothing matches these filters.') + '</p><button type="button" class="btn btn--line" data-clear>' + both('إزالة التصفية', 'Clear filters') + '</button></div>';
     $$('.js-shop-count').forEach(function (el) { el.innerHTML = both(itemsAr(r.length), r.length + (r.length === 1 ? ' item' : ' items')); });
     var fb = $('#filterBtn .js-fcount'); if (fb) { var n = F.model.length + F.colour.length + F.price.length; fb.textContent = n; fb.hidden = !n; }
@@ -234,6 +244,7 @@
       if ((t = e.target.closest('[data-wish]'))) { e.preventDefault(); toggleWish(t.dataset.wish); return; }
       if ((t = e.target.closest('.card [data-quick]'))) { var cd = t.closest('.card'); openQuick(cd.dataset.p, cd.dataset.c); return; }
       if ((t = e.target.closest('.card [data-open]'))) { e.preventDefault(); var cd2 = t.closest('.card'); openProduct(cd2.dataset.p, cd2.dataset.c); return; }
+      if (e.target.closest('[data-more]')) { shown += 8; renderGrid(true); return; }
       if ((t = e.target.closest('[data-tab]'))) { F.model = t.dataset.tab ? [t.dataset.tab] : []; renderGrid(); return; }
       if ((t = e.target.closest('[data-unset]'))) {
         var dim = t.dataset.unset, v = t.dataset.val;
@@ -389,7 +400,7 @@
             '<div class="pd__titlerow"><h2 class="pd__name" id="pTitle">' + nameHtml(p) + '</h2>' +
             '<button class="pd__heart' + (isWish(p.id + '-' + c.id) ? ' is-on' : '') + '" type="button" data-wish="' + p.id + '-' + c.id + '" aria-pressed="' + isWish(p.id + '-' + c.id) + '" aria-label="wishlist">' + HEART + '</button></div>' +
             '<p class="pd__price">' + price(p.price) + '</p>' +
-            (inOffer ? '<p class="pd__deal"><svg aria-hidden="true"><use href="#spark"/></svg>' + both('أي ' + S.offer.qty + ' قطع بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ', 'Any ' + S.offer.qty + ' for JOD ' + num(S.offer.price)) + '</p>' : '') +
+            (inOffer ? '<p class="pd__deal"><svg aria-hidden="true"><use href="#spark"/></svg>' + both('لفترة محدودة: أي ' + S.offer.qty + ' قطع بـ<bdi>' + num(S.offer.price) + '</bdi> د.أ', 'Limited time: any ' + S.offer.qty + ' for JOD ' + num(S.offer.price)) + '</p>' : '') +
           '</div>' +
           (p.colours.length > 1 ? '<div class="pd__block"><p class="pd__label">' + both('اللون', 'Colour') + '<b>' + both(esc(c.ar), esc(c.en)) + '</b></p>' +
             '<div class="swatches">' + p.colours.map(function (k) {
@@ -406,7 +417,7 @@
               (p.tagline ? '<li>' + both(esc(p.tagline.ar), esc(p.tagline.en)) + '</li>' : '') +
               (p.specs || []).map(function (x) { return '<li>' + both(esc(x.ar), esc(x.en)) + '</li>'; }).join('') + '</ul></details>' +
             (sz ? '<details><summary>' + both('المقاسات', 'Sizes') + '</summary><p>' + both('تتوفر بمقاسات <bdi>' + sz.join(' ') + '</bdi>. وللمساعدة في اختيار المقاس، أرسل لنا طولك ووزنك عبر واتساب.', 'Available in ' + sz.join(', ') + '. Not sure? Send us your height and weight on WhatsApp.') + '</p></details>' : '') +
-            '<details><summary>' + both('التوصيل وتأكيد الطلب', 'Delivery and ordering') + '</summary><p>' + both('التوصيل إلى جميع محافظات المملكة بـ<bdi>' + num(S.delivery) + '</bdi> د.أ للطلب الواحد. يصلنا طلبك عبر واتساب ونتواصل معك لتأكيده.', 'Delivery anywhere in Jordan for JOD ' + num(S.delivery) + ' per order. Your order reaches us on WhatsApp and we confirm it with you.') + '</p></details>' +
+            '<details><summary>' + both('التوصيل وتأكيد الطلب', 'Delivery and ordering') + '</summary><p>' + both('نوصل إلى جميع محافظات المملكة. يصلنا طلبك عبر واتساب ونتواصل معك لتأكيده.', 'We deliver across Jordan. Your order reaches us on WhatsApp and we confirm it with you.') + '</p></details>' +
           '</div>' +
           relatedHtml(p, c) +
         '</div></div>' +
@@ -701,7 +712,7 @@
     el.innerHTML = '<div class="promo__scrim" data-x></div><div class="promo__card">' +
       '<button class="sheet__x" type="button" data-x aria-label="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
       '<div class="promo__pics">' + list.slice(0, 3).map(function (p) { return '<img src="' + p.colours[0].img + '" alt="">'; }).join('') + '</div>' +
-      '<div class="promo__body"><h2 class="promo__title" id="promoT">' + both('عرض القطع الثـلاث', 'Any ' + O.qty + ' for JOD ' + num(O.price)) + '</h2>' +
+      '<div class="promo__body"><h2 class="promo__title" id="promoT">' + both('عرض لفترة محدودة', 'Limited-time offer') + '</h2>' +
         '<p class="promo__price">' + both('أي <bdi>' + O.qty + '</bdi> قطع بـ<bdi>' + num(O.price) + '</bdi> د.أ' + (full > O.price ? '<s><bdi>' + num(full) + '</bdi></s>' : ''), 'Mix any ' + O.qty + ' for JOD ' + num(O.price) + (full > O.price ? ' <s>' + num(full) + '</s>' : '')) + '</p>' +
         '<p class="promo__text">' + both('اختر ما يناسبك من الموديلات والألوان، وسيُحتسب الخصم تلقائياً في السلة.', 'Pick any styles and colours. The discount is applied in your bag.') + '</p>' +
         '<button class="btn btn--solid btn--block" type="button" data-go>' + both('تصفّح القطع', 'Shop the offer') + '</button></div></div>';

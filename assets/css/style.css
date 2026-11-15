@@ -518,3 +518,103 @@ html[dir="ltr"] .tsort select { background-position: right 4px center; }
   .pd__foot { position: sticky; bottom: 0; background: #fff; border-top: 1px solid var(--line); padding: 14px 56px 22px; margin-top: 0; max-width: 560px; }
   .pd__side { justify-content: flex-start; }
 }
+
+/* =========================================================
+   BRAND COLOURS 2026: white base, dark green for text only,
+   lime and sky for every coloured surface, cream very light
+   ========================================================= */
+:root {
+  --g: #00403E;
+  --g-deep: #00403E;
+  --g-ink: #00403E;
+  --ink: #00403E;
+  --ink-2: rgba(0, 64, 62, .76);
+  --muted: rgba(0, 64, 62, .52);
+  --lime: #CCFF4D;
+  --lime-2: #BDF22E;
+  --sky: #A8DCFF;
+  --sky-2: #DDF1FF;
+  --cream: #F7F5F0;
+  --tile: #F2F4F3;
+  --soft: #F5F6F4;
+  --line: #E1E6E5;
+  --line-2: #A7B6B5;
+}
+body { background: #fff; color: var(--ink); }
+::selection { background: var(--lime); color: var(--g); }
+
+.skip { background: var(--lime); color: var(--g); }
+.btn--solid { background: var(--lime); color: var(--g); }
+.btn--solid:hover { background: var(--lime-2); }
+.btn--line { color: var(--g); box-shadow: inset 0 0 0 1.5px var(--g); }
+
+.strip { background: var(--lime); color: var(--g); font-weight: 500; }
+.top__count { background: var(--lime); color: var(--g); box-shadow: 0 0 0 1.5px #fff; }
+
+.hero { background: var(--sky); }
+.hero::after { background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, .5) 100%); }
+
+.badge { background: var(--lime); color: var(--g); }
+.tile .arr { background: var(--lime); color: var(--g); }
+.perk { background: var(--sky-2); }
+.film { background: var(--sky); }
+.film::after { background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, .55)); }
+
+.foot { background: var(--sky); color: var(--g); }
+.foot__base { border-top-color: rgba(0, 64, 62, .18); }
+
+.bar__in { background: var(--lime); color: var(--g); box-shadow: 0 -6px 24px rgba(0, 0, 0, .12); }
+.bar__count { opacity: .8; }
+.bar__go { background: #fff; color: var(--g); }
+
+.sheet__scrim, .promo__scrim { background: rgba(0, 0, 0, .38); }
+.promo__card { box-shadow: 0 30px 80px rgba(0, 0, 0, .22); }
+
+.size.is-on { background: var(--lime); color: var(--g); box-shadow: inset 0 0 0 1.5px var(--g); }
+.tab.is-on { background: var(--lime); color: var(--g); box-shadow: inset 0 0 0 1.5px var(--lime); }
+.tbtn__n { background: var(--lime); color: var(--g); }
+.fopt.is-on .fopt__box { background: var(--lime); box-shadow: inset 0 0 0 1.5px var(--g); }
+.fopt.is-on .fopt__box::after { border-color: var(--g); }
+.fcol.is-on { box-shadow: inset 0 0 0 2px var(--g); background: var(--sky-2); }
+.done__head i { background: var(--lime); color: var(--g); }
+.nudge { background: var(--sky-2); }
+.nudge.is-got { background: var(--lime); color: var(--g); }
+.nudge.is-got svg { color: var(--g); }
+.pd__deal { background: var(--lime); }
+.toast { background: var(--lime); color: var(--g); font-weight: 500; box-shadow: 0 8px 24px rgba(0, 0, 0, .12); }
+.chips .fchip { background: var(--sky-2); }
+
+/* zoom viewer on white */
+.zoom__bg { background: rgba(255, 255, 255, .96); }
+.zoom__frame { box-shadow: 0 0 0 6px #fff, 0 30px 80px rgba(0, 0, 0, .18); }
+.zoom__bar { box-shadow: 0 10px 30px rgba(0, 0, 0, .14), inset 0 0 0 1px var(--line); }
+.zoom__x { box-shadow: inset 0 0 0 1px var(--line); }
+.zoom__hint { color: var(--ink-2); }
+
+/* ---------- sky blue as a strong brand colour ---------- */
+.strip { background: var(--sky); color: var(--g); }
+.models { background: var(--sky); padding-block: clamp(40px, 6vw, 72px); margin-top: 0; }
+.models .tile { background: #fff; }
+.models .tile .arr { background: var(--lime); }
+.shop { padding-top: clamp(40px, 6vw, 72px); }
+.searchbox { background: var(--sky-2); }
+.perks__in { gap: 4px; }
+.perk { background: var(--sky-2); }
+.perk:first-child { background: var(--lime); }
+.films { background: var(--sky); margin-top: clamp(56px, 8vw, 96px); padding-block: clamp(48px, 7vw, 88px); }
+.films .head__sub { color: var(--ink-2); }
+.film { background: #fff; }
+.pd__media { background: var(--sky-2); }
+.sum { background: var(--sky-2); padding: 16px; }
+.sum .is-total { border-top-color: rgba(0, 64, 62, .25); }
+.promo__pics { background: var(--sky); }
+.promo__body { background: #fff; }
+.co__head { background: var(--sky); border-bottom: 0; }
+
+/* show more */
+.more { display: grid; justify-items: center; gap: 12px; padding-top: 32px; text-align: center; }
+.more[hidden] { display: none; }
+.more__n { font-size: 14px; color: var(--ink-2); }
+.more__bar { width: 200px; height: 3px; background: var(--sky-2); }
+.more__bar i { display: block; height: 100%; background: var(--g); }
+.more .btn { min-width: 240px; }
