@@ -15,9 +15,9 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<link rel="preload" href="assets/fonts/thmanyah-serif-display-regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/thmanyah-serif-display-medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20261115-2">
+<link rel="preload" href="assets/fonts/thmanyah-sans-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/thmanyah-sans-bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css?v=20261115-3">
 <script>
   (function () {
     try {
@@ -41,12 +41,16 @@
   <div class="top__in">
     <a class="top__logo" href="#" aria-label="BRKX"><img src="assets/img/brkx-logo-green.svg" alt="BRKX" width="1000" height="388"></a>
     <nav class="top__nav" aria-label="primary">
-      <a href="#shop"><span data-l="ar">القطع</span><span data-l="en">Shop</span></a>
+      <a href="#shop" data-shop-filter="all"><span data-l="ar">تسوّق</span><span data-l="en">Shop</span></a>
+      <a href="#shop" data-shop-filter="new"><span data-l="ar">جديد</span><span data-l="en">New</span></a>
+      <a href="#models"><span data-l="ar">الموديلات</span><span data-l="en">Styles</span></a>
       <a href="#films"><span data-l="ar">فيديوهات</span><span data-l="en">Videos</span></a>
       <a href="#faq"><span data-l="ar">أسئلة</span><span data-l="en">FAQ</span></a>
     </nav>
     <div class="top__end">
       <button class="top__lang" id="lang" type="button" aria-label="Switch language"><span data-l="ar">EN</span><span data-l="en">عربي</span></button>
+      <button class="top__icon" type="button" data-search aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 20.5 20.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></svg></button>
+      <button class="top__icon" type="button" data-wishlist aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-9.2-9.3C1.7 7.4 3.8 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.2 0 5.3 2.9 4.2 6.2C19.5 15.4 12 20 12 20Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><span class="top__count js-wish-count" hidden>0</span></button>
       <button class="top__bag" type="button" data-checkout aria-label="Bag">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 8h13l-1 12h-11l-1-12Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 10V7a3 3 0 0 1 6 0v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
         <span class="top__count js-count" hidden>0</span>
@@ -72,14 +76,42 @@
     </div>
   </section>
 
+  <!-- shop by model -->
+  <section class="models" id="models">
+    <div class="wrap">
+      <div class="head"><h2 class="head__title"><span data-l="ar">تسوّق حسب الموديل</span><span data-l="en">SHOP BY STYLE</span></h2></div>
+      <div class="tiles" id="tiles"></div>
+    </div>
+  </section>
+
   <!-- shop -->
   <section class="shop" id="shop">
     <div class="wrap">
       <div class="head">
         <h2 class="head__title"><span data-l="ar">كل البلايـز</span><span data-l="en">ALL KNITWEAR</span></h2>
-        <span class="head__count" id="count"></span>
+        <span class="head__count js-shop-count"></span>
+      </div>
+      <label class="searchbox">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 20.5 20.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></svg>
+        <input id="search" type="search" autocomplete="off" placeholder="ابحث بالاسم أو اللون، مثلاً: كحلي" aria-label="Search">
+      </label>
+      <div class="tabs" id="tabs" role="tablist"></div>
+    </div>
+    <div class="toolbar">
+      <div class="wrap toolbar__in">
+        <button class="tbtn" id="filterBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="10" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span data-l="ar">فلترة</span><span data-l="en">Filter</span><span class="tbtn__n js-fcount" hidden>0</span></button>
+        <span class="toolbar__count js-shop-count"></span>
+        <label class="tsort"><span data-l="ar">ترتيب</span><span data-l="en">Sort</span>
+          <select id="sort">
+            <option value="featured">المميز</option>
+            <option value="new">الجديد أولاً</option>
+            <option value="low">السعر: من الأقل</option>
+            <option value="high">السعر: من الأعلى</option>
+          </select>
+        </label>
       </div>
     </div>
+    <div class="wrap"><div class="chips" id="chips" hidden></div></div>
     <div class="grid" id="grid"></div>
   </section>
 
@@ -174,6 +206,36 @@
   </div>
 </div>
 
+<!-- filter panel -->
+<div class="sheet" id="filters" role="dialog" aria-modal="true" aria-labelledby="fTitle" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__panel sheet__panel--side">
+    <header class="co__head"><h2 id="fTitle"><span data-l="ar">فلترة</span><span data-l="en">Filter</span></h2>
+      <button class="sheet__x sheet__x--flat" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></header>
+    <div class="co"><div class="co__scroll" id="fbody"></div>
+      <div class="co__foot ffoot"><button class="btn btn--line" type="button" data-clear><span data-l="ar">مسح</span><span data-l="en">Clear</span></button><button class="btn btn--solid" id="fapply" type="button"></button></div></div>
+  </div>
+</div>
+
+<!-- quick add -->
+<div class="sheet" id="quick" role="dialog" aria-modal="true" aria-label="Quick add" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__panel sheet__panel--quick">
+    <button class="sheet__x" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    <div class="q" id="qbody"></div>
+  </div>
+</div>
+
+<!-- wishlist -->
+<div class="sheet" id="wish" role="dialog" aria-modal="true" aria-labelledby="wTitle" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__panel sheet__panel--side">
+    <header class="co__head"><h2 id="wTitle"><span data-l="ar">المفضلة</span><span data-l="en">Wishlist</span></h2>
+      <button class="sheet__x sheet__x--flat" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></header>
+    <div class="co"><div class="co__scroll" id="wbody"></div></div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -185,7 +247,7 @@
   <symbol id="check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
-<script src="assets/js/products.js?v=20261115-2" defer></script>
-<script src="assets/js/store.js?v=20261115-2" defer></script>
+<script src="assets/js/products.js?v=20261115-3" defer></script>
+<script src="assets/js/store.js?v=20261115-3" defer></script>
 </body>
 </html>
