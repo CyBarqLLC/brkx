@@ -19,11 +19,34 @@ window.BRKX_STORE = {
 
   categories: [
     { id: 'knitwear',    ar: 'الملابس المحبوكة', en: 'Knitwear' },
+    { id: 'jackets',     ar: 'جاكيتات',      en: 'Jackets' },
     { id: 'accessories', ar: 'إكسسوارات',    en: 'Accessories' },
     { id: 'other',       ar: 'منتجات أخرى',  en: 'More' }
   ],
 
   products: [
+    {
+      id: 'jacket',
+      category: 'jackets',
+      badge:   { ar: 'جديد', en: 'New' },
+      name:    { ar: 'جاكيت كتان مغسول', en: 'Washed Boxy Jacket' },
+      title:   { ar: ['جاكيت كتان', 'مغسول.'], en: ['The washed', 'boxy jacket.'] },
+      tagline: { ar: 'جاكيت كتان مغسول بقصّة بوكس مرتبة، مبطّن من الداخل ومريح جداً باللبس.', en: 'Washed jacket with a neat boxy fit, fully lined and very comfortable to wear.' },
+      price: 20,
+      sizes: ['M', 'L', 'XL', 'XXL'],
+      specs: [
+        { ar: 'كتان مغسول', en: 'Washed fabric' },
+        { ar: 'قصّة بوكس', en: 'Boxy fit' },
+        { ar: 'مبطّن من الداخل', en: 'Fully lined' },
+        { ar: 'جيب داخلي', en: 'Inside pocket' },
+        { ar: 'سحّاب أمامي وياقة قميص', en: 'Front zip and shirt collar' }
+      ],
+      colours: [
+        { id: 'black', ar: 'أسود', en: 'Black',     hex: '#1C1C1E', img: 'assets/img/jacket-black-640.webp', imgLarge: 'assets/img/jacket-black-1080.webp' },
+        { id: 'brown', ar: 'بني',  en: 'Brown',     hex: '#4A2A1F', img: 'assets/img/jacket-brown-640.webp', imgLarge: 'assets/img/jacket-brown-1080.webp' },
+        { id: 'cream', ar: 'سكري', en: 'Off-white', hex: '#E7E3D8', img: 'assets/img/jacket-cream-640.webp', imgLarge: 'assets/img/jacket-cream-1080.webp' }
+      ]
+    },
     {
       id: 'henley',
       category: 'knitwear',
@@ -54,7 +77,6 @@ window.BRKX_STORE = {
     {
       id: 'crew',
       category: 'knitwear',
-      badge:   { ar: 'جديد', en: 'New' },
       name:    { ar: 'بلوزة القبة المدورة', en: 'Crew-neck Cable Knit' },
       title:   { ar: ['بلوزة القبة', 'المـدورة.'], en: ['The crew-neck', 'cable knit.'] },
       tagline: { ar: 'بلوزة محبوكة مجدولة بقبة مدورة.', en: 'Cable-knit sweater with a round neck.' },

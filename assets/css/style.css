@@ -677,3 +677,7 @@ body { background: #fff; color: var(--ink); }
 @media (max-width: 520px) { .featured .head__link { display: none; } }
 .shop--page { padding-top: 24px; }
 .crumbs--page { margin-bottom: 14px; }
+
+/* four styles: 2 columns on phones, 4 on desktop */
+.tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 900px) { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
