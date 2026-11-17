@@ -618,3 +618,50 @@ body { background: #fff; color: var(--ink); }
 .more__bar { width: 200px; height: 3px; background: var(--sky-2); }
 .more__bar i { display: block; height: 100%; background: var(--g); }
 .more .btn { min-width: 240px; }
+
+/* =========================================================
+   BRAND COLOURS (final): BRKX dark green + one soft lighter green.
+   No lime, no sky blue.
+   ========================================================= */
+:root {
+  --g: #00615E; --g-deep: #004E4B; --g-ink: #004E4B;
+  --ink: #00615E; --ink-2: rgba(0, 78, 75, .78); --muted: rgba(0, 78, 75, .52);
+  --soft-g: #E5EFEE;      /* soft lighter green for surfaces */
+  --soft-g2: #CFE2E0;     /* a touch deeper, for hovers and chips */
+  --lime: #00615E; --lime-2: #004E4B; --sky: #E5EFEE; --sky-2: #E5EFEE;
+  --tile: #F1F5F4; --soft: #F3F7F6; --line: #DCE6E4; --line-2: #9FBAB7;
+}
+::selection { background: var(--soft-g2); color: var(--g); }
+.skip { background: var(--g); color: #fff; }
+.btn--solid { background: var(--g); color: #fff; }
+.btn--solid:hover { background: var(--g-deep); }
+.strip { background: var(--soft-g); color: var(--g); }
+.top__count { background: var(--g); color: #fff; }
+.hero { background: var(--soft-g); }
+.badge { background: #fff; color: var(--g); }
+.tile .arr, .models .tile .arr { background: var(--g); color: #fff; }
+.models { background: var(--soft-g); }
+.perk, .perk:first-child { background: var(--soft-g); }
+.films { background: var(--soft-g); }
+.foot { background: var(--g); color: #fff; }
+.foot__base { border-top-color: rgba(255, 255, 255, .2); }
+.bar__in { background: var(--g); color: #fff; }
+.bar__go { background: #fff; color: var(--g); }
+.size.is-on { background: var(--g); color: #fff; box-shadow: none; }
+.tab.is-on { background: var(--g); color: #fff; box-shadow: none; }
+.tbtn__n { background: var(--g); color: #fff; }
+.fopt.is-on .fopt__box { background: var(--g); box-shadow: none; }
+.fopt.is-on .fopt__box::after { border-color: #fff; }
+.fcol.is-on { background: var(--soft-g); }
+.done__head i { background: var(--g); color: #fff; }
+.nudge { background: var(--soft-g); }
+.nudge.is-got { background: var(--g); color: #fff; }
+.nudge.is-got svg { color: #fff; }
+.pd__deal { background: var(--soft-g); }
+.pd__media { background: var(--soft-g); }
+.toast { background: var(--g); color: #fff; }
+.chips .fchip, .searchbox { background: var(--soft-g); }
+.sum { background: var(--soft-g); }
+.co__head { background: var(--soft-g); }
+.promo__pics { background: var(--soft-g); }
+.more__bar { background: var(--soft-g); }
