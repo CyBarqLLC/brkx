@@ -188,7 +188,7 @@
       '<button type="button" class="fchip fchip--clear" data-clear>' + both('إزالة الكل', 'Clear all') + '</button>';
   }
   var SORT_L = { featured: ['المميزة', 'Featured'], 'new': ['الأحدث', 'Newest'], low: ['السعر: من الأقل', 'Price: low to high'], high: ['السعر: من الأعلى', 'Price: high to low'] };
-  var PAGE = 4, shown = PAGE;
+  var PAGE = 1000, shown = PAGE;
   function renderGrid(keep) {
     if (!grid) return;
     if (!keep) shown = PAGE;
@@ -235,10 +235,30 @@
   }
   function toggleIn(arr, v) { var i = arr.indexOf(v); if (i > -1) arr.splice(i, 1); else arr.push(v); }
   function clearAll() { F.model = []; F.colour = []; F.price = []; F.q = ''; var si = $('#search'); if (si) si.value = ''; renderGrid(); }
-  function toShop() { var s = $('#shop'); if (s) s.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+  var ON_SHOP = !!grid;
+  function toShop(query) {
+    if (!ON_SHOP) { location.href = 'shop.html' + (query || ''); return; }
+    var s = $('#shop'); if (s) s.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }
 
-  if (grid) {
-    renderGrid(); renderWishCount();
+  if (ON_SHOP) {
+    // filters from the address bar: shop.html?model=dmc&sort=new&q=...
+    var qp = new URLSearchParams(location.search);
+    if (qp.get('model') && byId[qp.get('model')]) F.model = [qp.get('model')];
+    if (/^(new|low|high)$/.test(qp.get('sort') || '')) { F.sort = qp.get('sort'); var so0 = $('#sort'); if (so0) so0.value = F.sort; }
+    if (qp.get('q')) { F.q = qp.get('q'); var si1 = $('#search'); if (si1) si1.value = F.q; }
+    renderGrid();
+    if (qp.get('focus') === 'search') setTimeout(function () { var si2 = $('#search'); if (si2) si2.focus(); }, 300);
+  }
+  renderWishCount();
+  var featured = $('#featured');
+  if (featured) {
+    var picks = [];
+    P.forEach(function (p) { var it = ITEMS.filter(function (x) { return x.p.id === p.id; })[0]; if (it) picks.push(it); });
+    ITEMS.forEach(function (it) { if (picks.length < 4 && picks.indexOf(it) < 0) picks.push(it); });
+    featured.innerHTML = picks.slice(0, 4).map(cardHtml).join('');
+  }
+  {
     document.addEventListener('click', function (e) {
       var t;
       if ((t = e.target.closest('[data-wish]'))) { e.preventDefault(); toggleWish(t.dataset.wish); return; }
@@ -255,21 +275,21 @@
       if ((t = e.target.closest('#filters [data-dim]'))) { toggleIn(F[t.dataset.dim], t.dataset.val); renderGrid(); return; }
       if (e.target.closest('#filterBtn')) { renderFilters(); showSheet($('#filters')); return; }
       if (e.target.closest('#fapply')) { hideSheet($('#filters')); toShop(); return; }
-      if ((t = e.target.closest('[data-shop-model]'))) { e.preventDefault(); F.model = [t.dataset.shopModel]; renderGrid(); toShop(); return; }
+      if ((t = e.target.closest('[data-shop-model]'))) { e.preventDefault(); if (!ON_SHOP) { toShop('?model=' + t.dataset.shopModel); return; } F.model = [t.dataset.shopModel]; renderGrid(); toShop(); return; }
       if ((t = e.target.closest('[data-shop-filter]'))) { e.preventDefault(); clearAll(); if (t.dataset.shopFilter === 'new') F.sort = 'new'; var so = $('#sort'); if (so) so.value = F.sort; renderGrid(); toShop(); return; }
     });
     var sort = $('#sort'); if (sort) sort.addEventListener('change', function () { F.sort = sort.value; renderGrid(); });
     var search = $('#search'), st;
     if (search) search.addEventListener('input', function () { clearTimeout(st); st = setTimeout(function () { F.q = search.value.trim(); renderGrid(); }, 160); });
     var focusSearch = $('[data-search]');
-    if (focusSearch) focusSearch.addEventListener('click', function () { toShop(); setTimeout(function () { if (search) search.focus({ preventScroll: true }); }, reduce ? 0 : 450); });
+    if (focusSearch) focusSearch.addEventListener('click', function () { if (!ON_SHOP) { toShop('?focus=search'); return; } toShop(); setTimeout(function () { if (search) search.focus({ preventScroll: true }); }, reduce ? 0 : 450); });
   }
 
   /* ---------- shop by model tiles ---------- */
   var tiles = $('#tiles');
   if (tiles) tiles.innerHTML = P.map(function (p) {
     var c = p.colours[0], n = p.colours.length;
-    return '<a class="tile" href="#shop" data-shop-model="' + p.id + '"><span class="tile__img"><img src="' + (c.imgLarge || c.img) + '" alt="" loading="lazy"></span>' +
+    return '<a class="tile" href="shop.html?model=' + p.id + '" data-shop-model="' + p.id + '"><span class="tile__img"><img src="' + (c.imgLarge || c.img) + '" alt="" loading="lazy"></span>' +
       '<span class="tile__text"><b>' + nameHtml(p) + '</b><span>' + both(n + ' ألوان، ' + '<bdi>' + num(p.price) + '</bdi> د.أ', n + ' colours, JOD ' + num(p.price)) + '</span></span>' +
       '<svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></a>';
   }).join('');
@@ -395,7 +415,7 @@
         '<span class="pd__zoomhint"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5 20 20M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></button></div>' +
       '<div class="pd__side">' +
         '<div class="pd__scroll"><div class="pd__info">' +
-          '<nav class="crumbs" aria-label="breadcrumb"><a href="#top" data-close>' + both('الرئيسية', 'Home') + '</a><span>/</span><a href="#shop" data-close data-crumb-all>' + both('القطع', 'Knitwear') + '</a><span>/</span><b>' + nameHtml(p) + '</b></nav>' +
+          '<nav class="crumbs" aria-label="breadcrumb"><a href="index.html">' + both('الرئيسية', 'Home') + '</a><span>/</span><a href="shop.html" data-close data-crumb-all>' + both('القطع', 'Knitwear') + '</a><span>/</span><b>' + nameHtml(p) + '</b></nav>' +
           '<div class="pd__top">' + (p.badge ? '<p class="pd__badge">' + both(esc(p.badge.ar), esc(p.badge.en)) + '</p>' : '') +
             '<div class="pd__titlerow"><h2 class="pd__name" id="pTitle">' + nameHtml(p) + '</h2>' +
             '<button class="pd__heart' + (isWish(p.id + '-' + c.id) ? ' is-on' : '') + '" type="button" data-wish="' + p.id + '-' + c.id + '" aria-pressed="' + isWish(p.id + '-' + c.id) + '" aria-label="wishlist">' + HEART + '</button></div>' +
@@ -449,7 +469,7 @@
     if ((t = e.target.closest('[data-size]'))) { state.s = t.dataset.size; renderProduct(); return; }
     if ((t = e.target.closest('[data-zoom]'))) { openZoom($('img', t)); return; }
     if ((t = e.target.closest('[data-rel]'))) { var it = ITEMS.filter(function (x) { return x.key === t.dataset.rel; })[0]; openProduct(it.p.id, it.c.id); var sc = $('.pd', $('#product')); if (sc) sc.scrollTop = 0; var side = $('.pd__side', $('#product')); if (side) side.scrollTop = 0; return; }
-    if (e.target.closest('[data-crumb-all]')) { e.preventDefault(); clearAll(); setTimeout(toShop, 50); return; }
+    if (e.target.closest('[data-crumb-all]')) { if (!ON_SHOP) return; e.preventDefault(); clearAll(); setTimeout(toShop, 50); return; }
     if (e.target.closest('[data-wish]')) return;
     if (e.target.closest('[data-add]') || e.target.closest('[data-buy]')) {
       var buy = !!e.target.closest('[data-buy]');
@@ -533,7 +553,7 @@
         bag[i].q += d; if (bag[i].q < 1) bag.splice(i, 1);
         saveBag(); renderBar(); renderCheckout(); return;
       }
-      if (e.target.closest('[data-shop]')) { hideSheet($('#checkout')); var s = $('#shop'); if (s) s.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); return; }
+      if (e.target.closest('[data-shop]')) { hideSheet($('#checkout')); if (!ON_SHOP) { toShop(); return; } var s = $('#shop'); if (s) s.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); return; }
       if (e.target.closest('[data-send]')) {
         var bad = { name: !form.name, gov: !form.gov, addr: !form.addr };
         if (bad.name || bad.gov || bad.addr) {
@@ -721,7 +741,7 @@
       try { sessionStorage.setItem('brkx-promo-v1', '1'); } catch (e) {}
       document.removeEventListener('keydown', onKey);
       setTimeout(function () { el.remove(); }, 400);
-      if (go) { var s = $('#shop'); if (s) s.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+      if (go) toShop();
     }
     function onKey(e) { if (e.key === 'Escape') close(); }
     el.addEventListener('click', function (e) { if (e.target.closest('[data-go]')) close(true); else if (e.target.closest('[data-x]')) close(); });

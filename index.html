@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/thmanyah-sans-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/thmanyah-sans-bold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20261117-1">
+<link rel="stylesheet" href="assets/css/style.css?v=20261117-2">
 <script>
   (function () {
     try {
@@ -39,13 +39,13 @@
 <!-- header -->
 <header class="top" id="top">
   <div class="top__in">
-    <a class="top__logo" href="#" aria-label="BRKX"><img src="assets/img/brkx-logo-green.svg" alt="BRKX" width="1000" height="388"></a>
+    <a class="top__logo" href="index.html" aria-label="BRKX"><img src="assets/img/brkx-logo-green.svg" alt="BRKX" width="1000" height="388"></a>
     <nav class="top__nav" aria-label="primary">
-      <a href="#shop" data-shop-filter="all"><span data-l="ar">تسوّق</span><span data-l="en">Shop</span></a>
-      <a href="#shop" data-shop-filter="new"><span data-l="ar">وصل حديثاً</span><span data-l="en">New</span></a>
-      <a href="#models"><span data-l="ar">الموديلات</span><span data-l="en">Styles</span></a>
-      <a href="#films"><span data-l="ar">إطلالات</span><span data-l="en">Videos</span></a>
-      <a href="#faq"><span data-l="ar">الأسئلة الشائعة</span><span data-l="en">FAQ</span></a>
+      <a href="shop.html"><span data-l="ar">المتجر</span><span data-l="en">Shop</span></a>
+      <a href="shop.html?sort=new"><span data-l="ar">وصل حديثاً</span><span data-l="en">New</span></a>
+      <a href="index.html#models"><span data-l="ar">الموديلات</span><span data-l="en">Styles</span></a>
+      <a href="index.html#films"><span data-l="ar">إطلالات</span><span data-l="en">Videos</span></a>
+      <a href="index.html#faq"><span data-l="ar">الأسئلة الشائعة</span><span data-l="en">FAQ</span></a>
     </nav>
     <div class="top__end">
       <button class="top__lang" id="lang" type="button" aria-label="Switch language"><span data-l="ar">EN</span><span data-l="en">عربي</span></button>
@@ -72,7 +72,7 @@
     <div class="hero__text">
       <h1 class="hero__title"><span data-l="ar">مجموعة الشتـاء.</span><span data-l="en">WINTER KNITS.</span></h1>
       <p class="hero__sub"><span data-l="ar">لفترة محدودة: أي 3 قطع بـ<bdi class="js-offer-price">40</bdi> د.أ</span><span data-l="en">Limited time: any 3 for JOD <bdi class="js-offer-price">40</bdi></span></p>
-      <a class="btn btn--solid btn--arrow" href="#shop"><span data-l="ar">تسوّق الآن</span><span data-l="en">SHOP NOW</span><svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></a>
+      <a class="btn btn--solid btn--arrow" href="shop.html"><span data-l="ar">تسوّق الآن</span><span data-l="en">SHOP NOW</span><svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></a>
     </div>
   </section>
 
@@ -84,36 +84,16 @@
     </div>
   </section>
 
-  <!-- shop -->
-  <section class="shop" id="shop">
+  <!-- featured -->
+  <section class="featured" id="shop">
     <div class="wrap">
       <div class="head">
-        <h2 class="head__title"><span data-l="ar">جميع القطـع</span><span data-l="en">ALL KNITWEAR</span></h2>
-        <span class="head__count js-shop-count"></span>
-      </div>
-      <label class="searchbox">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 20.5 20.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></svg>
-        <input id="search" type="search" autocomplete="off" placeholder="ابحث باسم القطعة أو اللون" aria-label="Search">
-      </label>
-      <div class="tabs" id="tabs" role="tablist"></div>
-    </div>
-    <div class="toolbar">
-      <div class="wrap toolbar__in">
-        <button class="tbtn" id="filterBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="10" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span data-l="ar">تصفية</span><span data-l="en">Filter</span><span class="tbtn__n js-fcount" hidden>0</span></button>
-        <span class="toolbar__count js-shop-count"></span>
-        <label class="tsort"><span data-l="ar">ترتيب</span><span data-l="en">Sort</span>
-          <select id="sort">
-            <option value="featured">المميز</option>
-            <option value="new">الجديد أولاً</option>
-            <option value="low">السعر: من الأقل</option>
-            <option value="high">السعر: من الأعلى</option>
-          </select>
-        </label>
+        <h2 class="head__title"><span data-l="ar">مختارات الموسـم</span><span data-l="en">SEASON PICKS</span></h2>
+        <a class="head__link" href="shop.html"><span data-l="ar">تسوّق جميع القطع</span><span data-l="en">Shop all</span><svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></a>
       </div>
     </div>
-    <div class="wrap"><div class="chips" id="chips" hidden></div></div>
-    <div class="grid" id="grid"></div>
-    <div class="wrap more" id="more" hidden></div>
+    <div class="grid" id="featured"></div>
+    <div class="wrap featured__cta"><a class="btn btn--line btn--arrow" href="shop.html"><span data-l="ar">تسوّق جميع القطع</span><span data-l="en">SHOP ALL</span><svg class="arr" aria-hidden="true"><use href="#arrow"/></svg></a></div>
   </section>
 
   <!-- benefits -->
@@ -248,7 +228,7 @@
   <symbol id="check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
-<script src="assets/js/products.js?v=20261117-1" defer></script>
-<script src="assets/js/store.js?v=20261117-1" defer></script>
+<script src="assets/js/products.js?v=20261117-2" defer></script>
+<script src="assets/js/store.js?v=20261117-2" defer></script>
 </body>
 </html>

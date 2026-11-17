@@ -665,3 +665,15 @@ body { background: #fff; color: var(--ink); }
 .co__head { background: var(--soft-g); }
 .promo__pics { background: var(--soft-g); }
 .more__bar { background: var(--soft-g); }
+
+/* home picks + shop page */
+.featured { padding-top: clamp(40px, 6vw, 72px); }
+.head__link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; white-space: nowrap; border-bottom: 1.5px solid var(--g); padding-bottom: 2px; }
+.head__link .arr { width: 18px; height: 18px; }
+.featured__cta { display: flex; justify-content: center; padding-top: 28px; }
+.featured__cta .btn { min-width: 260px; }
+#featured { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; max-width: var(--max); margin-inline: auto; }
+@media (min-width: 900px) { #featured { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding-inline: var(--gut); } }
+@media (max-width: 520px) { .featured .head__link { display: none; } }
+.shop--page { padding-top: 24px; }
+.crumbs--page { margin-bottom: 14px; }
